@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The golden ratio hiding in electrical lines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7ECEF; --panel:#F6F8F9; --ink:#15243A; --soft:#4C5B6E; --rule:#C3CCD4;
+  --wire:#7E8C99; --glaze:#7A3B1E; --volt:#E8B520; --phi:#1F6F8B;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#0F1923; --panel:#16232F; --ink:#E4EAF0; --soft:#9AA9B8; --rule:#2C3B49;
+  --wire:#8495A6; --glaze:#C9774E; --volt:#F2C94C; --phi:#5FB6D3; } }
+:root[data-theme="dark"]{
+  --bg:#0F1923; --panel:#16232F; --ink:#E4EAF0; --soft:#9AA9B8; --rule:#2C3B49;
+  --wire:#8495A6; --glaze:#C9774E; --volt:#F2C94C; --phi:#5FB6D3; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 Barlow,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+h1,h2{font-family:"Barlow Condensed","Arial Narrow",Barlow,sans-serif;font-weight:700;line-height:1.05;margin:0}
+h1{font-size:clamp(34px,7vw,54px);letter-spacing:-.01em}
+h2{font-size:clamp(25px,4.6vw,32px);margin-top:54px}
+p{margin:12px 0;max-width:66ch}
+.lede{color:var(--soft);font-size:18px}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:16px;margin-top:18px}
+.scroll{overflow-x:auto}
+svg{display:block;max-width:100%;height:auto}
+.readout{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;margin-top:10px}
+.big{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:44px;color:var(--phi);line-height:1}
+.small{color:var(--soft);font-size:15px}
+label{font-weight:600;font-size:15px}
+input[type=range]{width:100%;accent-color:var(--phi);margin-top:6px}
+input[type=range]:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
+table{border-collapse:collapse;width:100%;font-size:15px;margin-top:10px}
+td,th{padding:6px 8px;border-bottom:1px solid var(--rule);text-align:left}
+th{font-weight:600;color:var(--soft)}
+.take{border-left:4px solid var(--volt);padding:6px 0 6px 16px;margin-top:22px;font-size:19px}
+footer{margin-top:44px;color:var(--soft);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<h1>The golden ratio hiding in electrical lines</h1>
+<p class="lede">A chain of identical sections, whether resistors on a bench, kilometres of line, or discs in an insulator string, always settles to one fixed value. In the simplest case that value is 1.618…, the golden ratio.</p>
+
+
+<h2>What the golden ratio is</h2>
+<p>Split a line into two parts so that the whole is to the long part exactly as the long part is to the short part. That ratio is the golden ratio, φ = (1 + √5)/2 = 1.6180339…</p>
+<div class="panel"><svg id="cut" viewBox="0 0 700 110" aria-label="Golden cut of a line"></svg></div>
+<p>It is the only number that becomes its own reciprocal plus one: φ = 1 + 1/φ. In other words, it is what you get when something is built from <b>itself plus a smaller copy of itself</b>, over and over. Add the last two numbers to get the next (1, 1, 2, 3, 5, 8, 13, 21…) and the ratio between neighbours heads straight to φ.</p>
+
+<h2>Why it shows up in living things</h2>
+<p>Living things grow by adding new parts to what is already there, using the same rule each time. A plant puts out each new seed or leaf turned by a fixed angle from the last. Which angle packs them best?</p>
+<div class="panel">
+  <label for="ang">Turn between each new seed: <span id="angval">137.5°</span></label>
+  <input id="ang" type="range" min="1300" max="1450" value="1375" step="1">
+  <svg id="flower" viewBox="0 0 420 420" style="max-width:420px;margin:8px auto 0" aria-label="Seed packing by angle"></svg>
+  <div class="small" id="angnote"></div>
+</div>
+<p>Any angle that is a simple fraction of a full turn makes seeds line up in spokes and waste space. The golden angle, 360°/φ² ≈ 137.5°, is the angle that never lines up, because φ is the hardest of all numbers to approximate with a fraction. So new seeds always fall into the biggest remaining gap. That is why sunflower heads, pine cones and pineapples show spiral counts like 21, 34, 55 and 89, which are Fibonacci numbers.</p>
+<p>Here is the twist: φ does not appear because it <i>resonates</i>. It appears because it is the number that best <b>avoids</b> resonance, never falling into a repeating rhythm. Physics shows the same thing: in vibrating and orbiting systems, motions tuned to the golden ratio are the last to be shaken apart. Wherever something keeps building on itself and needs to stay stable, φ is the natural setting, and the ladder below is the electrical version of the same rule.</p>
+<p class="small">What is real and what is myth: plant spirals and the Fibonacci counts are solid, measured biology. Popular claims that the Parthenon, the Mona Lisa, the nautilus shell or "perfect" human faces follow φ do not hold up when measured.</p>
+
+<h2>The same rule in a circuit</h2>
+<div class="panel">
+  <label for="n">Sections in the ladder: <span id="nval">1</span></label>
+  <input id="n" type="range" min="1" max="10" value="1">
+  <div class="scroll"><svg id="ladder" viewBox="0 0 720 190" aria-label="Resistor ladder diagram"></svg></div>
+  <div class="readout">
+    <div><div class="big" id="rin">2.000 Ω</div><div class="small">input resistance, all resistors 1 Ω</div></div>
+    <div><div style="font-size:22px;font-weight:600" id="frac">2 / 1</div><div class="small">exact fraction (Fibonacci numbers)</div></div>
+    <div><div style="font-size:22px;font-weight:600" id="gap">0.382</div><div class="small">gap from 1.618034</div></div>
+  </div>
+</div>
+
+<h2>It settles fast</h2>
+<p>Each added section brings the input resistance down towards 1.618, and the remaining gap shrinks by the same factor (about 2.6×) every time. After five or six sections a short ladder already behaves like an infinitely long one.</p>
+<div class="panel"><svg id="conv" viewBox="0 0 700 300" aria-label="Convergence chart"></svg></div>
+<p class="small">Why 1.618: a very long ladder looks the same whether you add one more section or not, so R = 1 + R/(1 + R), which gives R² = R + 1. The positive answer is φ = (1 + √5)/2.</p>
+
+<h2>Voltage falls by a fixed share per section</h2>
+<p>Feed 100 V into a long ladder. Each section passes on only 1/φ² ≈ 38.2% of what it receives, so the drop is geometric, not a straight line.</p>
+<div class="panel"><svg id="volts" viewBox="0 0 700 260" aria-label="Voltage per section chart"></svg></div>
+
+<h2>A transmission line is the same ladder</h2>
+<p>Every kilometre adds a little series impedance (conductor resistance and inductance) and a little shunt admittance (capacitance and leakage to ground). Engineers model the line as exactly this ladder, so a long line settles to one <b>characteristic impedance</b> and changes by a fixed factor per kilometre.</p>
+<div class="panel scroll"><svg id="line" viewBox="0 0 700 220" aria-label="Line modelled as ladder"></svg></div>
+
+<h2>Why the bottom disc of an insulator string works hardest</h2>
+<p>Each disc is a series capacitance, and each one also leaks a little stray capacitance to the tower. That makes the string a ladder too, so the voltage is not shared equally. The disc next to the live conductor carries the biggest share, which is why it fails first and why grading rings are fitted at that end.</p>
+<div class="panel">
+  <label for="m">Stray capacitance to tower, as a share of disc capacitance: <span id="mval">10%</span></label>
+  <input id="m" type="range" min="0" max="30" value="10">
+  <div class="scroll"><svg id="string" viewBox="0 0 700 330" aria-label="Insulator string voltage shares"></svg></div>
+  <div class="small" id="eff"></div>
+</div>
+
+<p class="take">Any chain of identical repeating sections settles to a fixed value and changes by a fixed factor per section. Read those two numbers and you know the whole chain without calculating it section by section.</p>
+
+<footer>Prepared by Space with Claude (Anthropic), October 2026.</footer>
+</main>
+<script>
+const NS="http://www.w3.org/2000/svg", PHI=(1+Math.sqrt(5))/2;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p&&p.appendChild(e);return e}
+function txt(p,x,y,s,a={}){const t=el("text",Object.assign({x,y,fill:css("--ink"),"font-size":14,"font-family":"Barlow,sans-serif"},a),p);t.textContent=s;return t}
+function fib(k){let a=0,b=1;for(let i=0;i<k;i++)[a,b]=[b,a+b];return a}
+function resistor(p,x1,y1,x2,y2){ // zigzag
+  const n=6,dx=(x2-x1),dy=(y2-y1),L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,px=-uy,py=ux,lead=L*0.25;
+  let d=`M${x1},${y1} L${x1+ux*lead},${y1+uy*lead}`;
+  for(let i=1;i<=n;i++){const t=lead+(L-2*lead)*i/n,s=(i%2?1:-1)*(i===n?0:7);d+=` L${x1+ux*t+px*s},${y1+uy*t+py*s}`}
+  d+=` L${x2},${y2}`;el("path",{d,fill:"none",stroke:css("--glaze"),"stroke-width":2.4,"stroke-linejoin":"round"},p)}
+function drawLadder(n){
+  const s=document.getElementById("ladder");s.innerHTML="";const w=Math.min(64,600/n),x0=50,top=40,bot=160;
+  txt(s,8,top+5,"IN",{"font-weight":600});txt(s,4,bot+5,"GND",{"font-weight":600,"font-size":12});
+  el("line",{x1:30,y1:bot,x2:x0+n*w+10,y2:bot,stroke:css("--wire"),"stroke-width":2},s);
+  el("line",{x1:30,y1:top,x2:x0,y2:top,stroke:css("--wire"),"stroke-width":2},s);
+  for(let i=0;i<n;i++){const xa=x0+i*w,xb=xa+w;resistor(s,xa,top,xb,top);resistor(s,xb,top,xb,bot);
+    el("circle",{cx:xb,cy:top,r:3.5,fill:css("--ink")},s);el("circle",{cx:xb,cy:bot,r:3.5,fill:css("--ink")},s)}
+  const r=fib(2*n+1)/fib(2*n);
+  document.getElementById("nval").textContent=n;
+  document.getElementById("rin").textContent=r.toFixed(n>4?6:3)+" Ω";
+  document.getElementById("frac").textContent=fib(2*n+1)+" / "+fib(2*n);
+  document.getElementById("gap").textContent=(r-PHI).toExponential(2).replace("e"," × 10^");
+}
+function drawConv(){
+  const s=document.getElementById("conv");s.innerHTML="";const L=60,R=670,T=20,B=260,ymin=1.6,ymax=2.02;
+  const X=i=>L+(i-1)*(R-L)/7,Y=v=>B-(v-ymin)/(ymax-ymin)*(B-T);
+  el("line",{x1:L,y1:B,x2:R,y2:B,stroke:css("--rule")},s);
+  el("line",{x1:L,y1:Y(PHI),x2:R,y2:Y(PHI),stroke:css("--phi"),"stroke-width":2,"stroke-dasharray":"6 5"},s);
+  txt(s,R-150,Y(PHI)-8,"φ = 1.618034",{fill:css("--phi"),"font-weight":600});
+  const pts=[];for(let k=1;k<=8;k++){const v=fib(2*k+1)/fib(2*k);pts.push([X(k),Y(v),v,k])}
+  el("polyline",{points:pts.map(p=>p[0]+","+p[1]).join(" "),fill:"none",stroke:css("--glaze"),"stroke-width":2},s);
+  pts.forEach(p=>{el("circle",{cx:p[0],cy:p[1],r:4.5,fill:css("--glaze")},s);txt(s,p[0]-4,B+20,p[3],{fill:css("--soft"),"font-size":13})});
+  txt(s,L,B+40,"sections",{fill:css("--soft"),"font-size":13});
+  [1.65,1.8,2].forEach(v=>txt(s,10,Y(v)+5,v.toFixed(2),{fill:css("--soft"),"font-size":13}));
+}
+function drawVolts(){
+  const s=document.getElementById("volts");s.innerHTML="";const L=40,B=220,H=180,w=56;
+  let v=100;for(let i=0;i<9;i++){const h=v/100*H,x=L+i*(w+14);
+    el("rect",{x,y:B-h,width:w,height:h,fill:css("--volt"),rx:2},s);
+    txt(s,x+w/2,B-h-7,v>=1?v.toFixed(v>=10?0:1)+" V":v.toFixed(2)+" V",{"text-anchor":"middle","font-size":13,"font-weight":600});
+    txt(s,x+w/2,B+20,"node "+(i+1),{"text-anchor":"middle",fill:css("--soft"),"font-size":12});v/=PHI*PHI}
+}
+function drawLine(){
+  const s=document.getElementById("line");s.innerHTML="";
+  // tower
+  el("path",{d:"M40,200 L60,40 L80,200 M48,140 L72,140 M53,100 L67,100 M30,60 L90,60",stroke:css("--wire"),"stroke-width":2.5,fill:"none"},s);
+  const top=60,bot=190,x0=90,w=150;el("line",{x1:x0,y1:bot,x2:680,y2:bot,stroke:css("--wire"),"stroke-width":2,"stroke-dasharray":"4 4"},s);
+  txt(s,600,bot+22,"ground",{fill:css("--soft"),"font-size":13});
+  for(let i=0;i<4;i++){const xa=x0+i*w,xb=xa+w;resistor(s,xa,top,xb-30,top);
+    el("line",{x1:xb-30,y1:top,x2:xb,y2:top,stroke:css("--glaze"),"stroke-width":2.4},s);
+    resistor(s,xb,top,xb,bot);txt(s,xa+20,top-14,"1 km",{fill:css("--soft"),"font-size":13})}
+  txt(s,x0+10,top+30,"series: R + jωL per km",{"font-size":13});
+  txt(s,x0+w+40,bot-40,"shunt: G + jωC per km",{"font-size":13});
+}
+function drawString(mPct){
+  const s=document.getElementById("string");s.innerHTML="";const n=6,m=mPct/100;
+  const V=[0,1];for(let j=1;j<n;j++)V.push((2+m)*V[j]-V[j-1]);const tot=V[n];
+  const disc=[];for(let j=1;j<=n;j++)disc.push((V[j]-V[j-1])/tot*100);
+  // crossarm
+  el("line",{x1:60,y1:24,x2:200,y2:24,stroke:css("--wire"),"stroke-width":6},s);txt(s,210,29,"tower crossarm (earth)",{fill:css("--soft"),"font-size":13});
+  const cx=120,y0=44,g=42;
+  for(let j=0;j<n;j++){const y=y0+j*g;el("line",{x1:cx,y1:y-6,x2:cx,y2:y+g-6,stroke:css("--wire"),"stroke-width":2},s);
+    el("ellipse",{cx,cy:y+10,rx:42,ry:9,fill:css("--glaze")},s);
+    const share=disc[j],bw=share*7;el("rect",{x:200,y:y+2,width:bw,height:16,fill:css("--volt"),rx:2},s);
+    txt(s,206+bw,y+15,share.toFixed(1)+"%",{"font-size":13,"font-weight":600});}
+  const yc=y0+n*g;el("line",{x1:60,y1:yc,x2:200,y2:yc,stroke:css("--ink"),"stroke-width":4},s);
+  txt(s,210,yc+5,"live conductor",{"font-weight":600,"font-size":13});
+  txt(s,420,60,"share of line voltage per disc",{fill:css("--soft"),"font-size":13});
+    document.getElementById("mval").textContent=mPct+"%";
+  document.getElementById("eff").textContent=m===0?"With no stray capacitance every disc takes an equal 16.7% share: string efficiency 100%."
+    :`Disc nearest the conductor takes ${disc[n-1].toFixed(1)}% vs ${disc[0].toFixed(1)}% at the tower end. String efficiency ${(100*tot/(n*(V[n]-V[n-1]))).toFixed(1)}%.`;
+}
+
+function drawCut(){
+  const s=document.getElementById("cut");s.innerHTML="";const L=30,R=670,a=(R-L)/PHI,y=40;
+  el("line",{x1:L,y1:y,x2:L+a,y2:y,stroke:css("--phi"),"stroke-width":8},s);
+  el("line",{x1:L+a,y1:y,x2:R,y2:y,stroke:css("--glaze"),"stroke-width":8},s);
+  txt(s,L+a/2,y+30,"long part = 1.618",{"text-anchor":"middle","font-weight":600});
+  txt(s,L+a+(R-L-a)/2,y+30,"short part = 1",{"text-anchor":"middle","font-weight":600});
+  txt(s,(L+R)/2,y+58,"whole ÷ long = long ÷ short = 1.618…",{"text-anchor":"middle",fill:css("--soft")});
+}
+function drawFlower(deg){
+  const s=document.getElementById("flower");s.innerHTML="";const N=420,c=210,step=deg*Math.PI/180;
+  for(let i=1;i<=N;i++){const r=9.4*Math.sqrt(i),t=i*step;
+    el("circle",{cx:c+r*Math.cos(t),cy:c+r*Math.sin(t),r:3.6,fill:i%2?css("--glaze"):css("--volt")},s)}
+  document.getElementById("angval").textContent=deg.toFixed(1)+"°";
+  const g=Math.abs(deg-137.508)<0.06;
+  document.getElementById("angnote").textContent=g?"Golden angle: seeds fill the disc evenly with no gaps.":
+    "Off the golden angle by "+Math.abs(deg-137.508).toFixed(1)+"°: watch the seeds line up into spokes and leave gaps.";
+}
+const ang=document.getElementById("ang");ang.addEventListener("input",()=>drawFlower(ang.value/10));
+const n=document.getElementById("n"),m=document.getElementById("m");
+function all(){drawCut();drawFlower(ang.value/10);drawLadder(+n.value);drawConv();drawVolts();drawLine();drawString(+m.value)}
+n.addEventListener("input",()=>drawLadder(+n.value));m.addEventListener("input",()=>drawString(+m.value));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",all);
+all();
+</script>
+</body>
+</html>
