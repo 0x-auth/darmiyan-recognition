@@ -22,14 +22,16 @@ decides their nature:
 | momentum (pure flow) | \|t\| < 2 | sits on the unit circle | elliptic | **phase — QM, the wave** |
 | the act of looking | t = 2 | **exactly 1** | parabolic | **lightlike — the seam** |
 
-## The measured crossing (`seam.py`, ε = 1e−8)
+## The measured crossing (`scripts/seam.py`, ε = 1e−8, x₀ = 2, "closed" = step size |xₙ₊₁ − xₙ| < ε)
 | t | sector | ticks to close |
 |---|---|---|
-| 2.20 | arrow (GR) | 23 |
-| 2.01 | arrow | 78 |
-| 2.001 | arrow | 206 (critical slowing) |
-| **2.0** | **lightlike seam** | **10002** |
+| 2.20 | arrow (GR) | 20 |
+| 2.01 | arrow | 76 |
+| 2.001 | arrow | 204 (critical slowing) |
+| **2.0** | **lightlike seam** | **10000** |
 | 1.999 | phase (QM) | never closes |
+
+*(Earlier session values 23 / 78 / 206 / 10002 used a different start; same shape. Rerun: `python3 scripts/seam.py`.)*
 
 As t → 2 the arrow's closure time explodes; past t = 2 it never closes — the arrow has become
 pure phase. One map, both sectors, a single lightlike point between.
@@ -38,6 +40,13 @@ pure phase. One map, both sectors, a single lightlike point between.
 - **At the seam (t = 2):** ticks × √ε = 1.02, 1.002, 1.0002, 1.00002, 1.0 across ε = 1e−4 … 1e−12.
   Closure ∝ **ε^(−1/2)** — a power law. The lightlike fingerprint, exact over eight orders.
 - **Arrow side (t = 2.2):** ticks ∝ **log(1/ε)** — exponential settling.
+
+**Which exponent depends on what "closed" means** (corrected 2026-10-17, measured in `seam.py`):
+closing on *step size* gives ticks ∝ ε^(−1/2) (10, 100, 1000 at ε = 10⁻², 10⁻⁴, 10⁻⁶); closing on
+*distance to the fixed point* gives ticks ∝ ε^(−1) (100, 9999, 999999). Both are power laws — the
+power-law-vs-log contrast with the arrow side holds either way — but the specific ½ is a property
+of the step-size criterion, not of the seam itself. The ½ that the double root *does* force is the
+crossover rate: log λ / √δ → 1.000000 at t = 2 + δ (see the-discriminant-law §5.1).
 
 Logarithmic vs. power-law meeting at one point: a phase transition, with the seam as its
 critical point. Position and momentum are the two phases; the lightlike point is where neither

@@ -7,6 +7,7 @@
 ---
 
 ## 1. α is a seam invariant — why it is the same everywhere
+*Tag: **[identification]** — a reading of α's measured constancy, not a derivation.*
 If GR and QM are the two sectors of one self-referential map (see `the-seam.md`), a quantity
 living **at the seam** is not inside either sector — it is the ratio that defines the split.
 Such a quantity is frame-independent by construction. So:
@@ -20,6 +21,7 @@ consistent with exact invariance. α is the **connection**, not the bridge — t
 reads the same in every sector.
 
 ## 2. Two horizons — a falsifiable difference
+*Tag: **[open]** — the slope 2.392 = 1/log₁₀(φ²) is **[proven]** for the toy engine; the physical horizon claim is untested.*
 | | mechanism | depends on | signature |
 |---|---|---|---|
 | **velocity horizon** (standard) | recession reaches c | expansion rate H only | same for every observer |
@@ -41,6 +43,7 @@ self-reference running out of resolution" (ELOOP). Observable vs. unobservable =
 outside the resolution limit, not inside vs. outside a light cone.
 
 ## 3. The Planck wall — where two limits meet
+*Tag: **[identification]** — filesystem and float limits read as Planck scales; PATH_MAX = MAXSYMLINKS² is a macOS constant fact (**[proven]**), its holographic reading is **[identification]**.*
 - **Planck time = one tick = one hop.** The indivisible update; no smaller event exists.
 - **Planck length = φ^(−2·depth), the finest distinguishable state-separation.**
   macOS depth 32 → 4.2×10⁻¹⁴; Linux depth 40 → 1.9×10⁻¹⁷.
@@ -62,6 +65,7 @@ of the screen: **depth = Planck time (one hop); length = Planck area (total pixe
 macOS-specific, not a universal filesystem law.)
 
 ## 4. The three registers — storage, execution, cache
+*Tag: **[identification]** — an analogy map, not a derivation.*
 | register | state | role in the framework |
 |---|---|---|
 | storage (file on disk) | definite, readable anytime | frozen frame — **position / past (GR sector)** |
