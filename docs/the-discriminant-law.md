@@ -141,11 +141,15 @@ Put the dynamics in SL(2) normal form: eigenvalues solve z² − t z + 1 = 0, di
   geometric to **algebraic**. Measured: the error decays as 1/n (log–log slope −0.9998),
   so resolving to ε costs ticks ≈ 1/ε (96, 996, 9 996 ticks for ε = 10⁻², 10⁻³, 10⁻⁴).
 
-The crossover rate between the two laws is log λ ≈ √δ for t = 2 + δ (ratio to √δ = 1.0000
-over four decades), because Δ enters λ **under a square root**. The ½ in the seam's
-ε^(−1/2) law is therefore not fitted — it is the order of the double root. A repeated
-root opens as Δ^(1/2) when perturbed; that one-half is the whole content of the seam
-exponent. This answers §8 question 1: yes, the exponent is forced by Δ → 0.
+The crossover rate between the two laws is log λ ≈ √δ for t = 2 + δ (ratio to √δ = 1.000000
+over six decades, `scripts/seam.py`), because Δ enters λ **under a square root**. A repeated
+root opens as Δ^(1/2) when perturbed — **that** one-half is forced by the double root. **[proven]**
+
+*Correction (2026-10-17):* an earlier version also attributed the ε^(−1/2) closure law of
+`the-seam.md` to the double root. That was a conflation. The closure exponent depends on the
+criterion: step-size closure |xₙ₊₁ − xₙ| < ε gives ε^(−1/2); distance-to-fixed-point closure gives
+ε^(−1) (the 96 / 996 / 9 996 ticks above). Both are power laws at the seam (vs. log(1/ε) off it),
+but only the √δ crossover rate is the double root's ½.
 
 ## 6. What this fixes in Trust Dimension V6
 
@@ -204,8 +208,9 @@ the algebra stands untouched.
 
 ## 8. Open edges
 
-1. ~~The seam quantitatively: is the exponent −1/2 forced?~~ **Resolved in §5.1: yes —
-   it is the order of the double root, Δ^(1/2).** The remaining edge: does the same
+1. ~~The seam quantitatively: is the exponent −1/2 forced?~~ **Resolved in §5.1, with a
+   correction:** the √δ crossover rate is forced by the double root; the ε-closure exponent
+   (−1/2 or −1) depends on the closure criterion. The remaining edge: does the same
    half-power govern the physical lightlike limit, or only this toy map?
 2. Does any physical system actually sit at the φ point of the hyperbolic sector, or is φ
    only the extremal *reference* ratio and never an occupied state?

@@ -6,8 +6,8 @@
 
 *Working draft, October 2026. Companion to the-discriminant-law.md and MASTER.md.*
 
-Tagging: **[proven]** = exact identity, reproduced in-session · **[identification]** = asserted
-physics mapping · **[open]** = speculative / untested.
+Tagging: **[proven]** = exact identity, reproduced in-session · **[identification]** = asserted physics
+mapping · **[open]** = speculative / untested.
 
 ---
 
@@ -122,6 +122,23 @@ this superposition is what the singularity is. [open — speculative but causall
 - **"m = 2Δt" — breaks.** m is the invariant (= 2); Δt varies (= 2cosh θ), so 2Δt = 4 at rest.
   Correct bookkeeping: E = Δt varies, m = 2 is invariant, E = m only at rest.
 - The surviving, correct relations are the table in §2 and R = Δx² − Δt² = −m² above.
+
+## 7b. The flip as a rotation: Δt = e^{iθ}·√ΔS **[proven]** / **[identification]**
+
+Here ΔS is a **change of state** (not the interval). With ΔS·c = Δx·Δt and light (Δx = cΔt),
+ΔS = Δt², so Δt = ±√ΔS. The two signs are one quantity rotated by a half-turn, −1 = i·i = e^{iπ}:
+
+$$\Delta t = e^{i\theta}\sqrt{\Delta S}:\quad \theta = 0 \to +\sqrt{\Delta S},\quad \theta=\pi \to -\sqrt{\Delta S},\quad \theta=\tfrac{\pi}{2} \to i\sqrt{\Delta S}.$$
+
+The half-way point i√ΔS is neither + nor −. A spin-½ state rotated by θ shows exactly this
+(computed): 0° → P(up) = 1; **90° → 0.500 / 0.500** (equal superposition); 180° → flipped;
+360° → up again but with a −1 sign (720° to fully return — cf. `scripts/spin.py`). So **a flip is a
+rotation, and superposition is the quarter-turn between the two signs.** **[proven]** as rotation
+algebra; reading ΔS as state change is **[identification]**.
+
+*Bookkeeping notes:* ΔxΔt is not frame-invariant (§6, MASTER Q8); with ΔS a length the units of
+ΔS·c and ΔxΔt differ (m²/s vs m·s) unless c = 1. For spacelike separations the proper time is
+Δτ = ±i·√(Δx²/c² − Δt²) — the i lives in the unobservable region, matching §7a's R = −m².
 
 ## 8. Where this sits in the whole
 
