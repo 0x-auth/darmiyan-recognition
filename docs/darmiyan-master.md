@@ -58,7 +58,7 @@ Companion script: `darmiyan_master.py` (runs all four demos below, self-verifyin
 - Recognition cost = number of poles, **not** cycle length. From 6 Fibonacci terms we jump to **term #10¹⁸** through the recovered φ/ψ pole — exact match, nothing walked. The only failure is pure noise, which by the thesis isn't a thing.
 
 ## VIII. The wall — concealment that resists recognition (`wall`)
-- Reduced-round SHA-1 reversed as a constraint manifold: **preimage recovered up to ~21 rounds** (8r 0.06s, 20r 7.3s, 21r 72s); **22+ rounds wall**; full 80-round SHA-1 has no known preimage attack. ECC over 𝔽ₚ: forward ~log n, reverse ~√n (Shoup's black-box √n floor), verified on real curves y²=x³+7.
+- Reduced-round SHA-1 reversed as a constraint manifold *(session SMT runs; `darmiyan_master.py wall` prints the stored summary — rerunning needs z3-solver)*: **preimage recovered up to ~21 rounds** (8r 0.06s, 20r 7.3s, 21r 72s); **22+ rounds wall**; full 80-round SHA-1 has no known preimage attack. ECC over 𝔽ₚ: forward ~log n, reverse ~√n (Shoup's black-box √n floor), verified on real curves y²=x³+7.
 - Reading: the bits are all present and deterministic — the repetition is **scattered nonlinearly**, so *linear* recognition (poles/Berlekamp-Massey) can't read it. A limit on access, not on existence. Linear concealment we dissolved; nonlinear concealment is the live frontier.
 
 ---

@@ -10,7 +10,7 @@ what is still open.
 
 ## Start here
 
-**→ [`MASTER.md`](MASTER.md)** is the index and the honest ledger. Every claim in this repo is
+**→ [`MASTER.md`](MASTER.md)** is the index and the honest ledger. Claims are
 tagged **[proven]** (mathematics, reproduced), **[identification]** (a mapping to physics,
 asserted not derived), or **[open]**. The mathematics stands on its own even where the physics
 is speculative — nothing load-bearing rests on an identification.
@@ -29,12 +29,16 @@ discriminant, and a reading of time as the cost the gap imposes.
 | [`MASTER.md`](MASTER.md) | tagged index, full negative-results ledger, open questions, repo map |
 | [`docs/the-discriminant-law.md`](docs/the-discriminant-law.md) | one conserved norm, three conics (Δ<0 QM / Δ=0 seam / Δ>0 time); seam exponent forced by the double root; 137 is generic in ℤ[φ] |
 | [`docs/spacetime-from-the-now.md`](docs/spacetime-from-the-now.md) | Δt²−Δx²=4=m² (rest mass 2) = the relativistic dispersion relation; E=γm₀; κ=1/m; Big Bang at t=1; total reality = the interval |
-| [`docs/the-seam.md`](docs/the-seam.md) | the GR/QM bridge as trace sectors |
+| [`docs/the-seam.md`](docs/the-seam.md) | the GR/QM bridge as trace sectors (exponent criterion corrected) |
+| [`docs/aeon-return-law.md`](docs/aeon-return-law.md) | grow-then-invert cycles: Δ = (b−c)²−4 decides return; Penrose Ω̌Ω̂ = −1 |
+| [`docs/golden-lens-and-twins.md`](docs/golden-lens-and-twins.md) | z(n)=wⁿ, arms = residues, twin primes' mirror-symmetric empty arms, √−1 relabelling |
+| [`experiments/tides/`](experiments/tides/) | pre-registered real-data test: M2 found blind to 6 ppm, O1 fails — reported as is |
 | [`docs/two-horizons.md`](docs/two-horizons.md) | walker vs fabric; D_horizon = 1/H |
 | [`docs/recognition-as-resonance.md`](docs/recognition-as-resonance.md) | recognition cost = number of poles |
 | [`docs/phi-psi-findings.md`](docs/phi-psi-findings.md) · [`docs/keccak137_phi_psi.md`](docs/keccak137_phi_psi.md) | the φ/ψ mirror results and the Keccak/137 study |
 | [`docs/dharmiya-recognition.md`](docs/dharmiya-recognition.md) | the recognition write-up |
-| `scripts/` | `charge.py`, `spin.py`, `seam.py`, and the engine/workload/recognizer scripts |
+| `scripts/` | `charge.py`, `spin.py`, `seam.py`, `aeon_cycles.py`, `trace_dial.py`, and the engine/workload/recognizer scripts |
+| `experiments/oscillator/` | `oscillator_test.py` — real-data analyser with `--selftest` |
 
 ## A note on corrected claims
 

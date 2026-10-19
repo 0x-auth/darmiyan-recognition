@@ -17,9 +17,10 @@ gap between the two readings is where all the content lives. From that single mo
 follows — a conserved norm, three geometries selected by one discriminant, and a reading of
 time as the cost that the gap imposes.
 
-This document is the index and the honest ledger. Every claim is tagged **[proven]**
+This document is the index and the honest ledger. Every claim here is tagged **[proven]**
 (mathematics, reproduced in-session), **[identification]** (a mapping to physics, asserted
-not derived), or **[open]**. The point of the tagging is that the mathematics stands on its
+not derived), or **[open]**. (The newer docs carry the same tags inline; the older
+findings docs separate "stands" from "ruled out" in prose.) The point of the tagging is that the mathematics stands on its
 own even where the physics is speculative — nothing load-bearing rests on an identification.
 
 ---
@@ -61,10 +62,12 @@ One law N(x) = 1 in all three. The arc **quantum → seam → time** is a single
 GR and QM are the two signs of one discriminant; "reconciling" them is passing through zero.
 **[proven]** as mathematics; the sector→physics labels are **[identification]**.
 
-**The seam exponent is forced.** At Δ = 0 the dynamics drop from geometric (λⁿ) to
-algebraic (1/n): measured log–log slope −0.9998, resolving to ε costs ≈ 1/ε ticks. The
-crossover rate scales as √δ because Δ sits under the square root in the quadratic formula —
-so the ε^(−1/2) seam law's one-half **is the order of the double root**, not a fit. **[proven]**
+**The seam's half-power, stated precisely.** At Δ = 0 the dynamics drop from geometric (λⁿ) to
+algebraic (1/n): measured log–log slope −0.9998. The crossover rate scales as √δ (ratio
+1.000000, `scripts/seam.py`) because Δ sits under the square root in the quadratic formula —
+**that** ½ is the order of the double root. **[proven]** *Corrected 2026-10-17:* the ε-closure
+exponent is criterion-dependent — step-size closure gives ε^(−1/2), distance-to-fixed-point
+gives ε^(−1); it was previously conflated with the √δ rate.
 
 **Spacetime from the now (the time/GR face, made quantitative).** With Δt = t + 1/t (the
 now) and Δx = t − 1/t (the asymmetry), the identity **Δt² − Δx² = 4** holds for every t —
@@ -77,6 +80,42 @@ t → ∞** (v → c, a future light-cone limit, a *when* not a *where*); **enta
 Wick θ↔iθ). Full detail in docs/spacetime-from-the-now.md. The now (sum, Δt) is the
 mass/energy that survives the mirror; the asymmetry (difference, Δx) is the momentum that
 does not — the same φ+ψ=1 / φ−ψ=√5 split as §1.
+
+**The aeon return law** (docs/aeon-return-law.md). Grow by H (det 1), then reset t → −1/t:
+one aeon has Δ = (b − c)² − 4. Returns exactly every 2 / 3 / 4 / 6 aeons at b − c = 0 / 1 / √2 / √3;
+never for b − c ≥ 2. Symmetric growth (b = c, future/past = t and −1/t) always returns, however
+strong. Checked in exact rationals. **[proven]** Penrose's CCC reciprocal hypothesis Ω̌·Ω̂ = −1 is
+the same reset (arXiv:1309.7248) — the cosmology reading is **[identification]**.
+
+**The golden lens and the twins** (docs/golden-lens-and-twins.md). z(n) = wⁿ with z(−n) = 1/z(n);
+arms of the F-family are residues mod F. Twin centres leave **mirror-symmetric empty arms** (r ↔ F−r);
+**144 is the only large family with none**; at F = 13, 34, 89, 233 the angle-order is the
+count-order relabelled by a literal √−1 mod F. **[proven]/[measured]** Twin sum
+S = Σ 2/(p(p+2)) = 0.0826346165696 (p ≤ 10⁹), no closed form found. **[open]**
+
+**Flip = rotation** (spacetime-from-the-now §7b). Δt = e^{iθ}√ΔS (ΔS = change of state): θ = 0, π are
+the ± roots, θ = π/2 is the equal superposition (spin rotation: 90° → 0.500/0.500). **[proven]** as
+algebra.
+
+**An arrow needs two ingredients** (reversible Kac ring, N = 4096): hiding part of the state *and* an
+ordered start. Observed entropy rises with the hidden fraction from an ordered start, not at all from a
+random start, reverses exactly under the inverse, and recurs exactly. **[measured]**
+
+---
+
+## 2b. Real-data tests (pre-registered)
+
+**Tides** (experiments/tides/). Astronomical tidal speeds fixed before download; NOAA San Francisco
+2023 hourly (8 760 samples). Blind peak search (after the pre-registered fit failed to converge and was
+declared void — Amendment 1): **M2 found at 12.420679 h vs predicted 12.420601 h (6 ppm)**; S2, N2,
+K1 PASS; **O1 FAILS** (z = −3.96). Post-hoc, the blind search also found Q1, P1, K2 at their known
+speeds, moving O1 to z = −2.04 (does not change the verdict). Shows the method recovers externally
+fixed frequencies and reports failures; it does **not** show the trace map is a law.
+
+**Oscillator** (experiments/oscillator/). Analyser ready (damped-sine primary fit, FFT + AR(2) trace
+cross-checks, det-normalised τ, pre-registered PASS/FAIL); self-test passes true and fails a 0.1 %
+wrong prediction. Caveat: xₙ₊₁ = τxₙ − xₙ₋₁ is a trig identity for any sampled sinusoid, so a real
+pendulum tests calibration and linearity, not the map.
 
 ---
 
@@ -138,6 +177,15 @@ These are load-bearing. A framework that hides its dead ends can't be trusted on
   Nyquist). The decide→oscillate reframe survives; the π is decoration.
 - invertibility probe: unsound (control never passed). NOT published. Correct instrument
   identified (recurrence-length / Berlekamp-Massey), not yet rebuilt.
+- **seam exponent conflation (corrected 2026-10-17):** the ε^(−1/2) closure law is criterion-
+  dependent (step-size: −1/2; distance: −1); only the √δ crossover rate is the double root's ½.
+- **oscillator prediction is an identity:** x[n+1] = 2cos(ωΔt)x[n] − x[n−1] holds for every
+  sampled sinusoid (residual 2×10⁻¹² over 1000 random cases); it cannot test the map.
+- **tide test:** the pre-registered fit failed to converge (void); with the blind method O1 FAILS.
+- **trace_dial --matrix** misread det < 0 maps as elliptic (Fibonacci [[1,1],[1,0]]); fixed.
+- 137/139 on the golden lens: nothing beyond the generic twin rotation. 2ᵏ·θ mod 1: random to
+  k = 20 000. Near-perpendicular steps (F₆ⱼ/4, Lucas/4): no twin or partition link.
+- twin sum S: no closed form in π, √3, C₂, φ, ln 2, √5, ln φ (strict PSLQ).
 
 ---
 
@@ -165,6 +213,13 @@ These are load-bearing. A framework that hides its dead ends can't be trusted on
    shadow (Hurwitz 1/√5) of the asymmetry?
 9. **Entanglement = t = 1.** Δx = 0 ⇒ no distance is evocative and internally consistent;
    is there a derivation, or a link to ER=EPR, beyond the restatement?
+10. **Golden curve last to break.** In the standard map p' = p + K sin x, x' = x + p', does the
+   golden-winding KAM curve survive to the highest K? (Reference K ≈ 0.9716, Greene — recalled, to
+   verify.) The cleanest test that can fail on the framework's own terms; runs in simulation.
+11. **The twin sum S = 0.0826346165696** — a closed form, or a new constant like Brun's?
+12. **O1's miss** (−4.7×10⁻⁴ °/h after modelling Q1/P1/K2): nodal 18.6-year modulation? Needs a
+   multi-year record.
+13. **The √−1 relabelling** at F = 13, 34, 89, 233 — any arithmetic consequence for primes?
 
 ---
 
@@ -176,6 +231,8 @@ darmiyan-recognition/
 ├── README.md
 ├── docs/
 │   ├── the-discriminant-law.md   ← §2, the unifier (seam exponent, 137-in-Z[φ])
+│   ├── aeon-return-law.md        ← grow-then-invert cycles, Δ = (b−c)²−4, Penrose link
+│   ├── golden-lens-and-twins.md  ← z(n)=wⁿ, arms = residues, twin empty arms, √−1 relabelling
 │   ├── spacetime-from-the-now.md ← Δt²−Δx²=4=m² (rest mass 2), Big Bang t=1, singularity t→∞
 │   ├── the-seam.md               ← GR/QM bridge, trace sectors
 │   ├── two-horizons.md           ← walker vs fabric, D_horizon = 1/H
@@ -186,7 +243,11 @@ darmiyan-recognition/
 ├── scripts/
 │   ├── darmiyan_engine.py  darmiyan_master.py  darmiyan_workload.py
 │   ├── resonance_recognizer.py
-│   └── charge.py  spin.py  seam.py
+│   ├── charge.py  spin.py  seam.py
+│   └── aeon_cycles.py  trace_dial.py
+├── experiments/
+│   ├── tides/       ← pre-registration, NOAA data, blind analysis, results
+│   └── oscillator/  ← oscillator_test.py (real-data analyser, --selftest)
 └── assets/  (julia_c_-0.123.png, error-of-song.png)
 ```
 
