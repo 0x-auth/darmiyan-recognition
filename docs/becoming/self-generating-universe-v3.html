@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-generating universe v3</title>
+<style>
+:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--card:#f4f3ef;--c:#2a78d6;--r:#eb6834;--g:#1D9E75;--grid:#e6e5e0}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#8f8e86;--card:#232321;--c:#3987e5;--r:#d95926;--g:#5DCAA5;--grid:#33332f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
+h1{font-size:1.3rem;margin:0 0 4px}h2{font-size:1.05rem;margin:20px 0 6px}
+.sub{color:var(--ink2);font-size:.88rem;margin:0 0 10px}
+canvas{width:100%;display:block;border-radius:12px;background:var(--card);touch-action:none}
+.ctl{display:grid;grid-template-columns:auto 1fr 64px;gap:6px 10px;align-items:center;margin:12px 0}
+.ctl label{color:var(--ink2);font-size:.85rem}.ctl output{text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+button{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--muted);border-radius:8px;padding:4px 12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;font-size:.84rem}
+.stats div{background:var(--card);border-radius:8px;padding:6px 8px}
+.k{color:var(--ink2);font-size:.72rem}.v{font-variant-numeric:tabular-nums}
+.legend{font-size:.78rem;color:var(--ink2);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+</style>
+</head>
+<body>
+<main>
+<h1>Self-generating universe v3</h1>
+<p class="sub">Every tick adds an event and its mirror twin, each as a new orthogonal direction. All points, both sides, stay exactly 4 apart. Causal vs retro, and the order in time, appear only when you pick a viewpoint.</p>
+<canvas id="cv" width="1000" height="1000"></canvas>
+<div class="legend"><span><span class="sw" style="background:var(--c)"></span>causal (this viewpoint)</span><span><span class="sw" style="background:var(--r)"></span>retro (this viewpoint)</span><span><span class="sw" style="background:var(--muted)"></span>beyond the horizon</span><span><span class="sw" style="background:var(--g)"></span>observer</span></div>
+<div class="ctl">
+  <label for="tk">Ticks</label><input id="tk" type="range" min="1" max="150" step="1" value="12"><output id="tkv">12</output>
+  <label for="vw">Viewpoint</label><input id="vw" type="range" min="0" max="6.283" step="0.01" value="0.6"><output id="vwv">0.60</output>
+  <label for="hz">Horizon</label><input id="hz" type="range" min="0.1" max="1.2" step="0.01" value="0.75"><output id="hzv">0.75</output>
+</div>
+<div class="row"><button id="pl">Play ticks</button><button id="sp">Spin viewpoint</button><button id="clr">Clear drawing</button></div>
+<p class="sub">You can draw on the picture. The world mirrors your stroke through z ↦ −1/z around the observer (dashed circle = where a point and its mirror touch).</p>
+
+<div class="stats">
+  <div><div class="k">points (events + twins)</div><div class="v" id="o_n"></div></div>
+  <div><div class="k">directions needed</div><div class="v" id="o_d"></div></div>
+  <div><div class="k">every pair, min / max distance</div><div class="v" id="o_m"></div></div>
+  <div><div class="k">causal / retro (this viewpoint)</div><div class="v" id="o_cr"></div></div>
+  <div><div class="k">observable / beyond horizon</div><div class="v" id="o_ob"></div></div>
+  <div><div class="k">twins split across now</div><div class="v" id="o_tw"></div></div>
+</div>
+
+<h2>Time order, as this viewpoint sees it</h2>
+<p class="sub">The same points sorted along the observer's time axis. Spin the viewpoint and the order reshuffles; nothing in the structure changed.</p>
+<canvas id="tl" width="1000" height="200"></canvas>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const st=()=>getComputedStyle(document.documentElement),col=v=>st().getPropertyValue(v).trim();
+// deterministic random numbers per (axis, coordinate) so adding points never moves earlier ones' projections much
+function hrand(a,b){let x=Math.sin(a*12.9898+b*78.233)*43758.5453;x-=Math.floor(x);let y=Math.sin(a*39.3468+b*11.135)*24634.6345;y-=Math.floor(y);return Math.sqrt(-2*Math.log(x+1e-12))*Math.cos(2*Math.PI*y)}
+let ticks=12,view=0.6,hor=0.75,M=0,axes=null,strokes=[],cur=null,playT=false,spin=false;
+function buildAxes(){
+  M=2*ticks; // point 2k = event k, point 2k+1 = its mirror twin
+  const raw=[0,1,2].map(a=>Array.from({length:M},(_,i)=>hrand(a+1,i+1)));
+  const out=[];for(const v of raw){let w=v.slice();const mean=w.reduce((s,x)=>s+x,0)/M;w=w.map(x=>x-mean);
+    for(const b of out){const d=w.reduce((s,x,i)=>s+x*b[i],0);w=w.map((x,i)=>x-d*b[i])}
+    const n=Math.hypot(...w);out.push(w.map(x=>x/n))}
+  axes=out;
+}
+function project(){
+  const s=4/Math.SQRT2,c=Math.cos(view),sn=Math.sin(view);
+  return Array.from({length:M},(_,i)=>{const u=c*axes[0][i]+sn*axes[1][i],w=-sn*axes[0][i]+c*axes[1][i];return[s*u,s*w]});
+}
+function check(){ // verify in the full space: point i sits at (4/sqrt2)·e_i, so every pair is exactly 4 apart
+  const s=4/Math.SQRT2;let mn=1e9,mx=0;for(let i=0;i<M;i++)for(let j=i+1;j<M;j++){const d=Math.sqrt(2*s*s);mn=Math.min(mn,d);mx=Math.max(mx,d)}return[mn,mx]}
+function draw(){
+  const cv=$('cv'),c=cv.getContext('2d'),W=cv.width,H=cv.height;c.clearRect(0,0,W,H);
+  const P=project();let ext=0;for(const p of P)ext=Math.max(ext,Math.hypot(p[0],p[1]));
+  const sc=W*0.42/Math.max(ext,1e-6),ox=W/2,oy=H/2,Rh=hor*ext*sc,Ru=W*0.18;
+  c.strokeStyle=col('--grid');c.lineWidth=2;c.beginPath();c.moveTo(ox,20);c.lineTo(ox,H-20);c.stroke();
+  c.fillStyle=col('--ink2');c.font='24px sans-serif';c.textAlign='left';c.fillText('retro ←  now  → causal',ox-130,H-26);
+  c.strokeStyle=col('--g');c.setLineDash([12,10]);c.beginPath();c.arc(ox,oy,Rh,0,7);c.stroke();
+  c.strokeStyle=col('--muted');c.setLineDash([6,8]);c.beginPath();c.arc(ox,oy,Ru,0,7);c.stroke();c.setLineDash([]);
+  let cz=0,rt=0,ob=0,bh=0,tw=0;
+  for(let k=0;k<ticks;k++){const a=P[2*k],b=P[2*k+1];if(Math.sign(a[0])!==Math.sign(b[0]))tw++;
+    c.strokeStyle=col('--muted');c.globalAlpha=.25;c.lineWidth=1.5;c.beginPath();c.moveTo(ox+a[0]*sc,oy-a[1]*sc);c.lineTo(ox+b[0]*sc,oy-b[1]*sc);c.stroke();c.globalAlpha=1}
+  P.forEach((p,i)=>{const X=ox+p[0]*sc,Y=oy-p[1]*sc,inside=Math.hypot(X-ox,Y-oy)<=Rh;
+    if(p[0]>=0)cz++;else rt++;inside?ob++:bh++;
+    c.fillStyle=inside?(p[0]>=0?col('--c'):col('--r')):col('--muted');c.globalAlpha=inside?1:.55;
+    c.beginPath();c.arc(X,Y,i%2?6:8,0,7);c.fill();c.globalAlpha=1});
+  c.fillStyle=col('--g');c.beginPath();c.arc(ox,oy,11,0,7);c.fill();
+  // the drawing and its mirror z -> -1/z, unit circle = Ru
+  for(const s of strokes.concat(cur?[cur]:[])){
+    c.lineWidth=4;c.lineCap='round';c.strokeStyle=col('--ink');c.globalAlpha=.8;c.beginPath();s.forEach((z,i)=>{const X=ox+z[0]*Ru,Y=oy-z[1]*Ru;i?c.lineTo(X,Y):c.moveTo(X,Y)});c.stroke();
+    c.strokeStyle=col('--g');c.beginPath();let up=true;for(const z of s){const d=z[0]*z[0]+z[1]*z[1];if(d<1e-6){up=true;continue}const w=[-z[0]/d,z[1]/d];const X=ox+w[0]*Ru,Y=oy-w[1]*Ru;if(X<0||X>W||Y<0||Y>H){up=true;continue}up?c.moveTo(X,Y):c.lineTo(X,Y);up=false}c.stroke();c.globalAlpha=1}
+  const[mn,mx]=check();
+  $('o_n').textContent=M+'  ('+ticks+' events + '+ticks+' twins)';$('o_d').textContent=M-1;
+  $('o_m').textContent=mn.toFixed(6)+' / '+mx.toFixed(6);$('o_cr').textContent=cz+' / '+rt;$('o_ob').textContent=ob+' / '+bh;
+  $('o_tw').textContent=tw+' of '+ticks+' pairs';
+  const t=$('tl'),tc=t.getContext('2d');tc.clearRect(0,0,t.width,t.height);
+  const xs=P.map(p=>p[0]),lo=Math.min(...xs),hi=Math.max(...xs);
+  tc.strokeStyle=col('--grid');tc.lineWidth=2;tc.beginPath();tc.moveTo(30,100);tc.lineTo(970,100);tc.stroke();
+  const zx=30+940*(0-lo)/(hi-lo||1);tc.strokeStyle=col('--g');tc.beginPath();tc.moveTo(zx,40);tc.lineTo(zx,160);tc.stroke();
+  P.forEach((p,i)=>{const X=30+940*(p[0]-lo)/(hi-lo||1);tc.fillStyle=p[0]>=0?col('--c'):col('--r');tc.beginPath();tc.arc(X,i%2?118:82,i%2?6:8,0,7);tc.fill()});
+  tc.fillStyle=col('--ink2');tc.font='22px sans-serif';tc.fillText('earlier',30,190);tc.textAlign='right';tc.fillText('later',970,190);tc.textAlign='left';
+}
+function rebuild(){buildAxes();draw()}
+$('tk').oninput=e=>{ticks=+e.target.value;$('tkv').textContent=ticks;rebuild()};
+$('vw').oninput=e=>{view=+e.target.value;$('vwv').textContent=view.toFixed(2);draw()};
+$('hz').oninput=e=>{hor=+e.target.value;$('hzv').textContent=hor.toFixed(2);draw()};
+$('pl').onclick=e=>{playT=!playT;e.target.textContent=playT?'Pause ticks':'Play ticks'};
+$('sp').onclick=e=>{spin=!spin;e.target.textContent=spin?'Stop spinning':'Spin viewpoint'};
+$('clr').onclick=()=>{strokes=[];draw()};
+const cv=$('cv');
+function toZ(e){const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*cv.width/r.width,y=(e.clientY-r.top)*cv.height/r.height,Ru=cv.width*0.18;return[(x-cv.width/2)/Ru,(cv.height/2-y)/Ru]}
+cv.addEventListener('pointerdown',e=>{cur=[toZ(e)];cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(!cur)return;const z=toZ(e),l=cur[cur.length-1],n=Math.ceil(Math.hypot(z[0]-l[0],z[1]-l[1])/0.01);for(let k=1;k<=n;k++)cur.push([l[0]+(z[0]-l[0])*k/n,l[1]+(z[1]-l[1])*k/n]);draw()});
+cv.addEventListener('pointerup',()=>{if(cur)strokes.push(cur);cur=null;draw()});
+setInterval(()=>{let ch=false;if(playT&&ticks<150){ticks++;$('tk').value=ticks;$('tkv').textContent=ticks;buildAxes();ch=true}
+  if(spin){view=(view+0.02)%(2*Math.PI);$('vw').value=view;$('vwv').textContent=view.toFixed(2);ch=true}if(ch)draw()},60);
+rebuild();
+</script>
+</body>
+</html>

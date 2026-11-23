@@ -1,0 +1,280 @@
+<title>The Construct</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reference column with a contents list at the top; status tags as small outlined chips, so what is proved, measured, promising or missing reads at a glance. */
+:root {
+  --bg: #f6f7f9; --panel: #eceff4; --ink: #161a22; --ink-2: #485064; --ink-3: #737b8f; --rule: #d6dbe4;
+  --accent: #2b5797; --ok: #1f7a3a; --lead: #8a6a12; --open: #6b4fa3; --no: #b3303b; --stated: #485064;
+  --display: "Spectral", "Iowan Old Style", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #12151b; --panel: #1a1e26; --ink: #e8eaf0; --ink-2: #b3b9c7; --ink-3: #868d9e; --rule: #2a2f3a;
+  --accent: #8fb2ea; --ok: #5cc27a; --lead: #e0b84e; --open: #b9a2ea; --no: #f0727c; --stated: #b3b9c7; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #12151b; --panel: #1a1e26; --ink: #e8eaf0; --ink-2: #b3b9c7; --ink-3: #868d9e; --rule: #2a2f3a;
+  --accent: #8fb2ea; --ok: #5cc27a; --lead: #e0b84e; --open: #b9a2ea; --no: #f0727c; --stated: #b3b9c7; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.62 var(--body); }
+.wrap { max-width: 780px; margin: 0 auto; padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 18px; }
+.eyebrow { font: 500 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+h1 { font: 600 clamp(38px, 7vw, 56px)/1.05 var(--display); margin: 0; }
+h2 { font: 600 27px/1.2 var(--display); margin: 34px 0 4px; text-wrap: balance; scroll-margin-top: 16px; }
+h3 { font: 600 15px/1.3 var(--body); margin: 18px 0 2px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+p { margin: 0 0 10px; max-width: 70ch; }
+.intro p:first-child { color: var(--ink-2); font-size: 14.5px; }
+.intro p strong:first-child { color: var(--ink); }
+ul, ol { margin: 0 0 10px; padding-left: 22px; display: flex; flex-direction: column; gap: 7px; max-width: 72ch; }
+ul ul { margin-top: 6px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; }
+strong { font-weight: 600; }
+a { color: var(--accent); }
+nav { background: var(--panel); border-radius: 8px; padding: 14px 18px; }
+nav ol { columns: 2 220px; column-gap: 28px; display: block; margin: 0; padding-left: 20px; font-size: 14.5px; }
+nav li { break-inside: avoid; margin-bottom: 4px; }
+.tbl { overflow-x: auto; margin: 4px 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th { text-align: left; font: 500 12px/1.3 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); }
+td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td:first-child { font-family: var(--mono); font-size: 14px; white-space: nowrap; }
+.chip { display: inline-block; font: 500 10.5px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 3px 6px; border-radius: 4px; border: 1px solid currentColor; vertical-align: 1px; white-space: nowrap; }
+.chip.ok { color: var(--ok); } .chip.lead { color: var(--lead); } .chip.open { color: var(--open); } .chip.no { color: var(--no); } .chip.stated { color: var(--stated); }
+em { color: var(--ink-2); }
+@media (max-width: 480px) { body { font-size: 15px; } h2 { font-size: 23px; } }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Space × Claude · final framework · 14 Nov 2026</div>
+  <h1>The Construct</h1>
+  <div class="intro">
+<p><em>Space × Claude · final framework · 14 Nov 2026. Merges F1 (account 1, consolidated 14 Nov) with this account's work (1–7 Nov: the research doc, sections 1–61, and its scripts). Where the two differed, the fix is stated.</em></p>
+<p><strong>In one sentence:</strong> everything is one self-referential relation seen from two sides. What can't close becomes time and motion, what closes becomes structure, and the two sides are each other's complete description.</p>
+<p>Tags: <span class="chip ok">proved</span> exact algebra or theorem · <span class="chip ok">verified</span> checked numerically with a script · <span class="chip lead">lead</span> promising, not yet tested against data · <span class="chip open">open</span> missing piece · <span class="chip stated">stated</span> Space's premise, taken as a starting point.</p>
+<p><strong>One rule for every comparison:</strong> the construct is causal <em>and</em> retrocausal; standard physics is causal only. Project to what a causal observer registers before comparing. <span class="chip ok">verified</span></p>
+</div>
+  <nav aria-label="Contents"><ol><li><a href="#1-the-seed">1. The seed</a></li><li><a href="#2-two-views-of-one-motion">2. Two views of one motion</a></li><li><a href="#3-events-the-present-action">3. Events, the present, action</a></li><li><a href="#4-existence-registration-and-the-self">4. Existence, registration and the self</a></li><li><a href="#5-time-is-the-cost-of-incomplete-self-reference">5. Time is the cost of incomplete self-reference</a></li><li><a href="#6-order-and-dimension">6. Order and dimension</a></li><li><a href="#7-numbers">7. Numbers</a></li><li><a href="#8-physics-read-in-the-construct-t-mm_p">8. Physics read in the construct (t = m/m_P)</a></li><li><a href="#9-the-universe">9. The universe</a></li><li><a href="#10-emergence">10. Emergence</a></li><li><a href="#11-search-machines-organisms">11. Search, machines, organisms</a></li><li><a href="#12-old-texts-as-shared-shapes-not-values">12. Old texts, as shared shapes (not values)</a></li><li><a href="#13-corrections-made-in-merging">13. Corrections made in merging</a></li><li><a href="#14-negatives-kept">14. Negatives kept</a></li><li><a href="#15-open">15. Open</a></li><li><a href="#where-everything-lives">Where everything lives</a></li></ol></nav>
+  <div class="main"><hr />
+<h2 id="1-the-seed">1. The seed</h2>
+<h3 id="what-is-put-in-and-nothing-else">What is put in, and nothing else</h3>
+<ol>
+<li><strong>x = n + 1/x</strong>: self-reference. Equivalently the seed <strong>z = t + i/t</strong> and its mirror <strong>z′ = t − i/t</strong>.</li>
+<li><strong>The next n must not be built from earlier steps</strong>: orthogonal to the past.</li>
+<li><strong>1 is not a step.</strong></li>
+</ol>
+<h3 id="the-pair-and-the-interval">The pair and the interval</h3>
+<ul>
+<li>The roots of x = n + 1/x are <strong>t</strong> (cause) and <strong>−1/t</strong> (retro); their product is −1. Run as S → Δx + 1/S, the rule lands on t. <span class="chip ok">proved</span></li>
+<li><strong>Space Δx = t − 1/t = n</strong>, <strong>time Δt = t + 1/t = √(n² + 4)</strong>, and <strong>Δt² − Δx² = 4</strong> for every event, with nothing tuned. Time is the distance to where infinity sits: |n + 2i|. <span class="chip ok">proved</span></li>
+<li>z² − z′² = 4i; t = (z + z′)/2; z(t) = z(i/t): the twin is your own event at another address. <span class="chip ok">proved</span></li>
+</ul>
+<h3 id="four-sides-of-one-event">Four sides of one event</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>side</th>
+<th>name</th>
+<th>speed</th>
+<th>what it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>t</td>
+<td>cause (you)</td>
+<td>v</td>
+<td>the causal track</td>
+</tr>
+<tr>
+<td>−1/t</td>
+<td>retro</td>
+<td>−v</td>
+<td>same place, time flipped: your past</td>
+</tr>
+<tr>
+<td>i/t</td>
+<td>twin</td>
+<td>−1/v</td>
+<td>space and time swapped; beyond light, unobservable</td>
+</tr>
+<tr>
+<td>−it</td>
+<td>retro's twin</td>
+<td>1/v</td>
+<td>the twin's retro</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>The twin is <strong>i/t, not −1/t</strong>. Twin identities: Δt → −iΔx, Δx → iΔt; your time² + twin's time² = 4 at every t. <span class="chip ok">verified</span></li>
+<li>All eight reflections (±t, ±1/t, ±i/t, ±it) keep the 4, and so does every t ≠ 0: (t + 1/t)² − (t − 1/t)² = 4 is an identity. Four of them, nothing, t → 1/t (flips space), t → −1/t (flips time) and t → −t (both), keep Δt and Δx real. The other four swap them with a factor ±i (the twin side). Together the eight form a closed group. The mirror of the mirror is the self. <span class="chip ok">proved</span> <em>(Corrected 18 Nov: this line said only four operations keep the 4.)</em></li>
+<li><strong>Cause and retro are the light-cone axes.</strong> u = 2t, v = 2/t, u·v = 4; space and time are the diagonals (Δx = cause + retro, Δt = cause − retro). As a matrix the mirror is S = [[0, −1], [1, 0]], S² = −I. <span class="chip ok">proved</span></li>
+<li>The genesis is xy = 1 becoming xy = −1: one becomes a pair by asking. Cause × retro = −1 at every t.</li>
+</ul>
+<hr />
+<h2 id="2-two-views-of-one-motion">2. Two views of one motion</h2>
+<ul>
+<li><strong>Infinity is rotation.</strong> Causal: Δt = 2cosh η, a hyperbola, forward forever. Twin (turned by i): Δt = 2cos θ, a circle bounded by ±2. Your endless path is your twin's bounded oscillation. <span class="chip ok">proved</span></li>
+<li>Time can't go below 2 on the real side; below it t rotates instead of stretching and space turns imaginary. <strong>t = 1</strong> (Δx = 0, Δt = 2) is the boom, the only point both views share. <span class="chip ok">proved</span></li>
+<li><strong>Horizon sphere:</strong> put every complex t on a sphere; the retro −1/t̄ is exactly the antipode of t. The universe is one closed, finite sphere, and every point's horizon is the great circle halfway to its mirror. <span class="chip ok">verified</span></li>
+<li>Bend the line into a circle of diameter 4 and ±∞ meet at one point: a permanent horizon with no expansion needed. <span class="chip ok">proved</span></li>
+<li><strong>Levels nest:</strong> taking Δt as a new t, the origin Δt = 2 gives a new Δx of exactly 3/2, the dimension ceiling. <span class="chip ok">verified</span></li>
+</ul>
+<hr />
+<h2 id="3-events-the-present-action">3. Events, the present, action</h2>
+<ul>
+<li><strong>An event is a transition:</strong> Δz = z′ − z = −2i/t, purely along i, at right angles to both cause and retro (in quarter-turns: cause 1, event i, retro −1). States are what events leave behind. <span class="chip ok">proved</span></li>
+<li><strong>Two sizes of the present, not one:</strong> the smallest tick is Δt = 2 (a self at rest), and the width of the now is |z − z′| = 2/t, along the unseen direction. We sit where that segment crosses the real line, at t. A heavier self has a thinner now; light's is zero, so light registers nothing. <span class="chip ok">proved</span></li>
+<li><strong>The Big Bang is the first event,</strong> at t = 1, with the widest present, |Δz| = 2. In standard physics it is not an event at all, only the edge where the theory stops.</li>
+<li><strong>Action:</strong> the orbit traced between z and z′ has area 2π at every t: one h per event. The cell N_x·N_p = 1 = ħ, and the 4 is four atoms of action (ħ = 1 in the construct's units). <span class="chip ok">verified</span></li>
+<li>Rates are per self-reference step η, not per unit time: dΔt/dη = Δx and dΔx/dη = Δt; each event pulls back on its own change, dΔz/dη = −Δz. <span class="chip ok">proved</span></li>
+</ul>
+<hr />
+<h2 id="4-existence-registration-and-the-self">4. Existence, registration and the self</h2>
+<ul>
+<li><strong>Existence is a change that is registered,</strong> by the self or by anything. <span class="chip stated">stated, 7 Nov</span></li>
+<li><strong>Three steps:</strong> change (only possible until registered) → registration (one fact) → measurement (known). Each needs the one before; none needs the one after. <span class="chip stated">stated</span></li>
+<li><strong>Tested on the two waves:</strong> no mark anywhere gives full interference (the event didn't happen); a mark nobody reads ends it; a faint mark half-ends it; an erased mark restores it. <span class="chip ok">verified</span></li>
+<li><strong>One thing can't hold two states at once, so registering needs a mirror pair.</strong> The other premise, an aware self, takes consciousness as given and has no mathematics. The mirror is the cheapest second: the same thing with i flipped. Their sum is real and seen; their difference lies wholly along i. <span class="chip ok">proved</span></li>
+<li><strong>The twin is the description, beyond every path.</strong> If any path reached it, it would be one more state needing its own twin, without end, and nothing would finish registering. That it can't be reached is the condition of existence. It holds your change by being your mirror, not by anything travelling to it.</li>
+<li><strong>Reconciled with F1:</strong> F1 says the twin describes your <em>path</em>; this account said it holds <em>what doesn't change</em>. Both hold: the twin holds your whole path as one fixed object (your endless path is its bounded loop), so its description is the part of you that never changes. Properties (mass, charge, spin) are the name; state is the path; physics' accurate descriptions are exactly its invariants.</li>
+<li><strong>Knowing and having:</strong> knowing is a copy that can be shared; having is being the twin that holds it, which can't be passed on. Experience is private by structure. Asking to observe it is asking to register a twin.</li>
+<li><strong>Had, told, imagined:</strong> the labels are routes, written with each copy. Imagination is a new state built only from held ones (the sketchpad's mediant), which is why no one can imagine a new primary colour.</li>
+<li><strong>Consciousness (description, not equation):</strong> what it is to be the receiving half of a mirror pair. Whether holding comes with feel can't be checked from outside, by the same structure.</li>
+<li><strong>Two times:</strong> self time (your own count) and agreed time (the order two twins share). No universal time. <strong>Space appears with the second self</strong>, as the label for where a registration came from. <span class="chip stated">stated</span></li>
+</ul>
+<hr />
+<h2 id="5-time-is-the-cost-of-incomplete-self-reference">5. Time is the cost of incomplete self-reference</h2>
+<ul>
+<li><strong>Moving ⇔ irrational time:</strong> any whole step gives an irrational √(n² + 4); only rest gives rational time, 2. <span class="chip ok">proved</span></li>
+<li>√(n² + 4) = [n; (n−1)/2, 1, 1, (n−1)/2, 2n] for every odd n: a 5-step cycle shrinking by t⁻⁶ per cycle. <span class="chip ok">verified</span></li>
+<li>Self-reference in floats reaches φ after 38 steps (37.5 predicted), then can't resolve further. <span class="chip ok">verified</span></li>
+<li>S and its mirror together decide what one side can't (z and z′ give t uniquely). Geometry alone is complete; once the pair does full whole-number arithmetic it has undecidable statements. <strong>Primes are where adding meets multiplying.</strong> <span class="chip ok">proved, known theorem</span></li>
+<li><strong>Reading the cost from errors:</strong> time = |r|^(−½) + |r|^(½) from the error ratio; one high ÷ next low = (1 + v)/(1 − v), the Doppler factor; three errors call converging, cycling or stuck (error-of walk.py). <span class="chip ok">verified</span></li>
+<li><strong>Two-state memory rebuilds the whole past</strong> because p(n)q(n−1) − p(n−1)q(n) = ±1: the mirror's −1 makes the past recoverable. <span class="chip ok">verified</span></li>
+<li>The sketchpad's odds are calibrated: P(next guess too high) = q′/(q + q′) (40–50% predicted, 44.1% observed). <span class="chip ok">verified</span></li>
+</ul>
+<hr />
+<h2 id="6-order-and-dimension">6. Order and dimension</h2>
+<ul>
+<li><strong>The equidistant whole:</strong> every event and every twin are exactly 4 from every other. Causal vs retro, and before vs after, appear only from a viewpoint. Order needs no unit; scale does. <span class="chip ok">verified</span></li>
+<li><strong>D = 3/2 − 1/(2n) = 1 (space) + (n − 1)/(2n) (time)</strong>, measured on a line steered by rough time: 1.249, 1.339, 1.382, 1.403, 1.419, 1.454, 1.508. <span class="chip ok">verified</span></li>
+<li><strong>Derived by counting:</strong> n mirror pairs; a self sees the other n − 1 selves out of all 2n, twins included. <strong>D = 1 + the share seen</strong>, with no constant. Of all counting rules tried, only this one needs no constant. <strong>3/2 is the ceiling because half of everything is twins</strong>; one pair alone sees nothing (D = 1, pure time). <span class="chip ok">verified</span> The form D = 1 + share is still assumed. <span class="chip open">open</span></li>
+<li><strong>Curvature is a local dimension deficit:</strong> a ball's volume grows as r^(3 − δ), δ = (16πGρ/c²)·r²/15 (10⁻¹¹ in the Earth, 0.1 in a neutron star). <span class="chip ok">verified</span></li>
+</ul>
+<hr />
+<h2 id="7-numbers">7. Numbers</h2>
+<h3 id="clocks">Clocks</h3>
+<ul>
+<li>Primes past 3 sit only on hours 1, 5, 7, 11 of 12; the dropped hours return in <strong>4, 3, 2, 1 steps</strong>, the yuga ratio. <span class="chip ok">proved</span></li>
+<li>t = q − 1/t is the clock: q = 2cos(hour × 30°); hour 12 gives t = 1, the boom. ±√2 (45°) gives the 4-step cycle, the spin-½ double turn. <span class="chip ok">verified</span></li>
+<li>Every prime past 3 is 6k ± 1, at ±60° on a 6-hour clock where Δt = 1; at size √α one turn is α^±6. 137 is at −60°, 139 at +60°. <span class="chip ok">verified</span></li>
+<li><strong>24-hour clock:</strong> with t − 1/t = n, tᵏ + (−1/t)ᵏ mod 24 closes in 24 ticks only for n = 1, 5, 7, 11, 13, 17, 19, 23; ticks 13–24 are ticks 1–12 × 17. <span class="chip ok">verified</span></li>
+</ul>
+<h3 id="primes-as-a-spacetime">Primes as a spacetime</h3>
+<ul>
+<li>Each number is an event; <strong>causal order is divisibility</strong>; summing (−1)^steps over all chains from 1 to n gives μ(n). Primes and prime powers are lightlike; composites with two or more distinct primes are timelike. <span class="chip ok">verified</span></li>
+<li>Counting +1 and marking as a miss anything not buildable by × from earlier misses produces exactly the primes; with + alone, none. This is seed rule 2. <span class="chip ok">verified</span></li>
+<li>For consecutive primes: [Δ(t + 1/t)]² − [Δ(t − 1/t)]² = <strong>−4 × gap × cell</strong>, and the invariant step settles at 2 ÷ (number of primes so far). <span class="chip ok">proved, verified</span></li>
+<li><strong>Mirror-prime cells:</strong> the running excess of the cells between −1/p and −1/p_next is tighter than chance, H = 0.394 (to 10⁸) and 0.412 (to 10⁷) against 0.50 for random primes, with neighbours anti-correlated. This is the prime gaps' own balance, made visible as a walk by the mirror. <span class="chip ok">verified</span></li>
+<li>Twin primes sit off the mirror curve xy = −1 by exactly 2/(p + 2); one of each pair splits as a conjugate pair. 137 = (11 + 4i)(11 − 4i) splits; 139 can't. <span class="chip ok">verified</span></li>
+<li><strong>Negative:</strong> the spiral machinery (period 5, t⁻⁶, n² + 4) holds for every odd number and does not single out primes. <span class="chip no">verified negative</span></li>
+</ul>
+<hr />
+<h2 id="8-physics-read-in-the-construct-t-mm_p">8. Physics read in the construct (t = m/m_P)</h2>
+<ul>
+<li><strong>t is the Doppler factor:</strong> v = tanh(ln t), γ = Δt/2, γv = Δx/2; multiplying t's adds speeds. Energy m·Δt/2, momentum m·Δx/2. <span class="chip ok">proved</span></li>
+<li><strong>Two sizes:</strong> in the seed's pair, the sum S = z + z′ = 2t is the gravity size and the gap |z − z′| = 2/t the quantum size; S·G = 4i, and they are equal at t = 1, the Planck mass. In physical lengths the horizon radius is 2t and the reduced Compton size 1/t. <strong>Fix to F1:</strong> their product is <strong>2</strong> Planck areas, not one (r_s × ħ/mc = 2Għ/c³). Gravity's weakness is t². <span class="chip ok">verified</span></li>
+<li><strong>Black hole:</strong> r = r_s·Δt²/4, clock Δx/Δt. Horizon t = 1, singularity t = ±i, the unit circle between them is the whole inside, r = r_s cos²θ, reproducing the infall time. The twin sits at r_s − r and sees −M; the retro has the same r with its clock reversed. <span class="chip ok">verified</span> The map is still taken from gravity theory. <span class="chip open">open</span></li>
+<li><strong>Δ divides by the atom:</strong> everything is a count; c = 1, h is the cell. α = (e/q_P)², and √α = 0.0854 is the resolution amplitude. <span class="chip ok">verified</span></li>
+<li><strong>Waves:</strong> e^(its) + e^(−is/t) = 2cos(Δt·s/2)·e^(iΔx·s/2): time the envelope, space the carrier; dark fringes exactly 0. <span class="chip ok">proved</span></li>
+<li>Temperature ∝ 1/t (the 8π not derived). <span class="chip lead">lead</span> A +m/−m pair accelerates together with no energy cost: candidate for the push. <span class="chip open">open</span></li>
+<li>Units: real = reduced × Planck unit. The smallest tick 2 → 1.08 × 10⁻⁴³ s; 1 s = 1.855 × 10⁴³ ticks.</li>
+</ul>
+<hr />
+<h2 id="9-the-universe">9. The universe</h2>
+<ul>
+<li><strong>The rate of Δx is the measured expansion,</strong> exactly: ln t = (3/2)√Ω_Λ·H₀·τ, a³ = (Ω_m/Ω_Λ)(Δx/2)², matching the flat matter + dark-energy history to 2 × 10⁻⁵. Bang at t = 1; speed-up at Δx = √2 (6.1 Gyr ago); dark energy = matter at Δx = 2, t = 1 + √2 (3.5 Gyr ago); today Δx = 2.949, t = 3.256. <span class="chip ok">verified</span></li>
+<li><strong>Shares:</strong> dark energy (Δx/Δt)² = v², matter (2/Δt)²; they add to 1 because Δt² − Δx² = 4. <strong>Matter is how balanced cause and retro are; dark energy is how far the cause has run ahead.</strong> Drop the retro and there is no matter era: a causal-only model needs "matter" to stand in for the retro half. <span class="chip ok">verified</span></li>
+<li><strong>Λ:</strong> the full pair's 4 gives a dark-energy share of 0.882 (27σ off); <strong>the causal half, 2, gives 0.707 (3σ)</strong>; measurement needs 1.86. <span class="chip ok">verified</span></li>
+<li><strong>Redshift is time dilation</strong> (supernova light curves stretch by (1 + z)^1.003±0.011). A fixed loop or lens gives none. <span class="chip ok">verified</span> Two no-expansion readings:</li>
+<li><strong>Growing atom:</strong> still space, the atom's tick grows; identical to expansion. Light has covered 46.1 Gly of still space: the "observable radius". <span class="chip ok">verified</span></li>
+<li><strong>Still curvature:</strong> 1 + z = 1/√(1 − (r/R)^p), fitted on 1,580 supernovae: p = 0.988, R = 7.0 Gly, χ² 693 against 681 for expansion. Close below z ≈ 1, apart above (0.39 mag at z = 2); it needs an outward push c·H₀ at every observer (c·H₀/2π ≈ the galaxy-rotation scale, opposite sign). <span class="chip lead">lead</span></li>
+<li><strong>Redshift drift decides between them:</strong> still curvature predicts zero; growing atom predicts expansion's +3 cm/s at z = 1 over 20 years.</li>
+<li><strong>Flatness:</strong> measured curvature 0.001 ± 0.002; a closed, looping universe fits if its radius exceeds about 190–320 Gly. Matter and dark matter inside the Hubble radius have a black-hole radius of 0.315 of it; with dark energy, all of it: motion plus gravity energy is zero. <span class="chip ok">verified</span></li>
+<li><strong>Two small gaps</strong> (from the 7 Nov other-account session): the proton at t^−0.314 against t^−1/3, photons per baryon at t^0.151 against t^1/6. One rescaling of t fails; one common factor 11.7 fits both to 1.3× (fitted). In physics they are tied the other way, so a shared fix must act on counts of events, not the proton mass. The proton's gap is the 1836 question: m_p = (m_e/α) × 13.40. <span class="chip ok">verified</span></li>
+</ul>
+<hr />
+<h2 id="10-emergence">10. Emergence</h2>
+<ul>
+<li><strong>Method:</strong> give the start, the rule and the boundary; let it run; measure what was fixed in advance; compare once, with the causal projection.</li>
+<li><strong>First run (The One Event):</strong> start the bang 1/1 between 0/1 and 1/0; rule the sketchpad's next guess (p + p′)/(q + q′). Nothing else. <span class="chip ok">verified</span></li>
+<li>No event can reach its mirror (0 of 524,286 pairs): the only link is the bang.</li>
+<li>Each tick holds every t with its 1/t, so the product stays exactly 1: the whole remains one event.</li>
+<li>Events of one tick never reach each other; half share only the bang.</li>
+<li>Every positive ratio is born exactly once; whole numbers and primes are born on the outer edge.</li>
+<li>The typical event stays put (mean |ln t| → 0.792); growth happens only at the edge. A trillion events is 40 ticks.</li>
+<li><strong>Self-generating worlds (F1):</strong> "orthogonal to the past" produces the primes; the equidistant structure gives order only from a viewpoint. <span class="chip ok">verified</span></li>
+</ul>
+<hr />
+<h2 id="11-search-machines-organisms">11. Search, machines, organisms</h2>
+<ul>
+<li><strong>One-way = a process whose mirror doesn't exist.</strong> Toy search over 2¹⁶ keys: random 68,210 · eliminating tried keys 37,486 · mirror (meet in the middle) 402 · signed error 16. Memory halves the search, the mirror square-roots it, the sign takes the log. Mirror search measured at 1.406ⁿ ≈ √2ⁿ. <span class="chip ok">verified</span></li>
+<li><strong>Construct root search:</strong> better than Brent on hard problems (average 18.8 vs 26.7, worst 83 vs 126), slightly behind on easy ones (median 14 vs 12). <span class="chip ok">verified</span></li>
+<li><strong>Machine limits as horizons:</strong> symlink hops 40 (the horizon of self-reference), path 4,096 bytes (the largest description), clock tick (the present gap), float 2⁻⁵² (finest resolution). The symlink universe and darmiyan-fs compute with the kernel alone. <span class="chip ok">verified</span></li>
+<li><strong>Organisms:</strong> the arrow is set by which half of the alternation is larger (t = φ lives, 1/φ dies); the paired organism closes the shunya trap; bracketing is the Babylonian square root (correction = time, error = space); error-pixel recognition 52% → 97%; EI v0 beat a static snapshot by 0.22–0.38 bits; error-driven clause reweighting solved 25/25 hard 3-SAT. <span class="chip ok">verified</span></li>
+<li><strong>Ledgers and networks</strong> read as the construct: hash = arrow, nonce = a(n), consensus = agreed time, acknowledgement = the twin's record.</li>
+</ul>
+<hr />
+<h2 id="12-old-texts-as-shared-shapes-not-values">12. Old texts, as shared shapes (not values)</h2>
+<ul>
+<li><strong>Bṛhadāraṇyaka 1.4:</strong> the Self alone desires a second and splits: xy = 1 → xy = −1.</li>
+<li><strong>Puruṣa Sūkta (Ṛgveda 10.90.3):</strong> one quarter of the being forms all that exists, three quarters beyond. Two mirror pairs give exactly that: a self sees one of four.</li>
+<li><strong>Yugas 4:3:2:1</strong> and 12,000 down, 12,000 up: the 12-hour clock's dropped hours return in 4, 3, 2, 1 steps, and the 24-tick clock mirrors at 12.</li>
+</ul>
+<hr />
+<h2 id="13-corrections-made-in-merging">13. Corrections made in merging</h2>
+<ol>
+<li>Gravity size × quantum size is 2 Planck areas, not one.</li>
+<li>The twin's description is the whole path, fixed; this unifies "path" (F1) and "what doesn't change" (this account).</li>
+<li>"Present" names two things: the smallest tick 2 and the now-width 2/t.</li>
+<li>"No-expansion fit within 0.04 mag" holds only below z ≈ 1; above it the still curvature parts from the data's trend.</li>
+<li>Notation: Δt = t + 1/t throughout; some older sessions write Δx² − Δt² = −4 or swap the names.</li>
+<li>The 7 Nov "ħ = 4" reading is set aside; ħ = 1, and 4 is four atoms of action.</li>
+<li>"Why 4(1 − 1/n)?" is answered by counting (8 × the share seen); what remains open is why D = 1 + share.</li>
+</ol>
+<h2 id="14-negatives-kept">14. Negatives kept</h2>
+<ul>
+<li>Λ = 4/N² (27σ) and whole-number ticks (no speed-up).</li>
+<li>A fixed loop or lens can't redshift.</li>
+<li>The spiral machinery doesn't single out primes; 137 is a resemblance (t(137) = 137.0073), not a derivation; 137 + 5/139 is ~1,300 error bars off.</li>
+<li>Residual memory: kill criteria met for compression and surprise-as-context.</li>
+<li>The root search loses to Brent on the median easy problem.</li>
+<li>The fractal formula as a pure-space walk (withdrawn: wrong object).</li>
+</ul>
+<h2 id="15-open">15. Open</h2>
+<ol>
+<li><strong>Scale:</strong> today's tick ln t₀ = 1.18 (k ≈ 1.86); the 10⁶¹ is still put in. Δx = 3 (share 9/13) is 1σ, with no reason.</li>
+<li><strong>The push:</strong> what makes t advance when every event points along i (candidate: the ±m pair).</li>
+<li><strong>Gravity's dynamics:</strong> the bending map from mass = tick rate; then emergent curvature around ±m.</li>
+<li><strong>The real targets:</strong> 1/α = 137.035999177 [137; 27, 1, 3, 1, 1, 18, …] and m_p/m_e = 1836.15 (the proton gap is the same question).</li>
+<li><strong>Why D = 1 + the share seen.</strong></li>
+<li><strong>Emergence:</strong> measurements fixed before running; richer rules; twin placement as i/t in the self-generating world; when separate causes combine.</li>
+<li><strong>Still curvature:</strong> angular sizes, the full error matrix, more supernovae above z = 1; and pick the redshift reading before dating a prediction.</li>
+<li><strong>Dark matter:</strong> what it is and what fixes its amount.</li>
+<li><strong>The moment the unobservable becomes the retrocausal</strong> (Space's calculation).</li>
+<li>Temperature factor; horizon size per point; the resolution's running; the "2" in the prime/zero correlation ratio vs the present's 2; the D_seen rule for light; H = 1/2 + α.</li>
+<li><strong>Audit:</strong> tag every comparison in the doc as pair or causal projection, and redo the pair ones.</li>
+<li>Organism with the −1 phase; root search on easy cases; context measured by what's unresolved.</li>
+</ol>
+<hr />
+<h2 id="where-everything-lives">Where everything lives</h2>
+<ul>
+<li><strong>Pages (this account):</strong> The Construct (this page) · The Seed Construct (the basics) · The Becoming Plane (interactive, every checked result) · The One Event (emergence) · The Seed's Universe · The Seed's Open Questions · The Hard Problem Is a Mirror.</li>
+<li><strong>Research doc:</strong> <em>the becoming and the missing unit</em>, sections 1–61, with scripts in checks/ (1, 2–3, 5, 6, 7 Nov).</li>
+<li><strong>F1 files (account 1):</strong> self_reference_cf, cf, convo, t2–t4; prime_vs_odd, cells_check; equal_distance_structure, self_generating_universe v1–v3; mirror_search, construct_search, bench_roots, bench_fresh, os_limits, symlink_universe.</li>
+<li><strong>Repos:</strong> 0x-auth/error-of (branch os-horizons, local), 0x-auth/residual-memory-experiments, darmiyan-fs, darmiyan-recognition, reality-core, world-of_EI.</li>
+</ul></div>
+</div>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-generating universe v2</title>
+<style>
+:root{--bg:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#8a8984;--card:#f4f3ef;--c:#2a78d6;--r:#eb6834;--g:#1D9E75;--grid:#e6e5e0}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#8f8e86;--card:#232321;--c:#3987e5;--r:#d95926;--g:#5DCAA5;--grid:#33332f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px 14px 48px}
+h1{font-size:1.3rem;margin:0 0 4px}h2{font-size:1.05rem;margin:22px 0 6px}
+.sub{color:var(--ink2);font-size:.88rem;margin:0 0 10px}
+canvas{width:100%;display:block;border-radius:12px;background:var(--card);touch-action:none}
+.row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
+input[type=range]{flex:1;min-width:160px}
+button{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--muted);border-radius:8px;padding:4px 12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;font-size:.84rem}
+.stats div{background:var(--card);border-radius:8px;padding:6px 8px}
+.k{color:var(--ink2);font-size:.72rem}
+.v{font-variant-numeric:tabular-nums}
+pre{background:var(--card);border-radius:10px;padding:10px;font:12px/1.45 ui-monospace,Menlo,monospace;white-space:pre-wrap;max-height:220px;overflow:auto;margin:8px 0 0}
+.legend{font-size:.78rem;color:var(--ink2);display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+</style>
+</head>
+<body>
+<main>
+<h1>Self-generating universe v2</h1>
+<p class="sub">Seed: (1) x = n + 1/x, (2) the next n must not be built from earlier steps, (3) 1 is not a step. Everything below is found by the world itself.</p>
+
+<canvas id="cv" width="1000" height="1000"></canvas>
+<div class="legend"><span><span class="sw" style="background:var(--c)"></span>Z on the hyperbola (causal)</span><span><span class="sw" style="background:var(--r)"></span>Z' on the circle (retro)</span><span><span class="sw" style="background:var(--g)"></span>the wall: ±∞</span></div>
+<div class="row"><label for="sl" class="k">generations</label><input id="sl" type="range" min="1" max="4.7" step="0.01" value="1.3"><span id="gv" class="v">20</span></div>
+<div class="row"><button id="pl">Play</button><button id="st">One step</button></div>
+
+<div class="stats">
+  <div><div class="k">step n (Δx)</div><div class="v" id="o_n"></div></div>
+  <div><div class="k">t   and   −1/t</div><div class="v" id="o_t"></div></div>
+  <div><div class="k">Δt = t + 1/t</div><div class="v" id="o_dt"></div></div>
+  <div><div class="k">ΔZ = Z − Z' (gap)</div><div class="v" id="o_g"></div></div>
+  <div><div class="k">sum Z + Z' = 2t</div><div class="v" id="o_s"></div></div>
+  <div><div class="k">interval Δt² − Δx² (rule says 4)</div><div class="v" id="o_i"></div></div>
+  <div><div class="k">orbit area between Z, Z' (found: 2π)</div><div class="v" id="o_a"></div></div>
+  <div><div class="k">speed Δx/Δt (outside view)</div><div class="v" id="o_v"></div></div>
+  <div><div class="k">steps found ÷ (N / ln N)</div><div class="v" id="o_d"></div></div>
+  <div><div class="k">η = ln t  vs  ln n</div><div class="v" id="o_e"></div></div>
+</div>
+
+<h2>The 12-hour clock</h2>
+<p class="sub">Where each step lands, mod 12. Nobody told the world about the clock.</p>
+<canvas id="ck" width="1000" height="420"></canvas>
+
+<h2>The law it just wrote</h2>
+<pre id="src"></pre>
+
+<h2>Inversion pen</h2>
+<p class="sub">Draw anywhere. The world draws your stroke's retro conjugate, z ↦ −1/z, live. The dashed circle is |z| = 1, where a point and its conjugate touch.</p>
+<canvas id="pen" width="1000" height="1000"></canvas>
+<div class="row"><button id="clr">Clear</button><span class="k">orange = what you draw · blue = its −1/z image</span></div>
+<p class="sub">Fast-forward with the slider applies the same law without writing every intermediate law out as text. The law shown is the one written for the current generation.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const css=()=>getComputedStyle(document.documentElement),col=v=>css().getPropertyValue(v).trim();
+// ---------------- the world ----------------
+let steps=[],candidate=2;          // rule 3: 1 is not a step, so the search starts above it
+function nextStep(){               // rule 2: orthogonal to the past
+  let n=candidate;
+  for(;;){let ok=true;const r=Math.sqrt(n);for(const s of steps){if(s>r)break;if(n%s===0){ok=false;break}}if(ok)break;n++}
+  steps.push(n);candidate=n+1;return n;
+}
+function lawSource(gen){
+  const past=steps.slice(0,gen-1),shown=past.length>12?'['+past.slice(0,6).join(',')+', … ,'+past.slice(-4).join(',')+']':'['+past.join(',')+']';
+  return `// law ${gen}, written by law ${gen-1}
+// residue carried forward: ${past.length} earlier steps ${shown}
+let n = ${past.length?past[past.length-1]+1:2};
+while (past.some(s => n % s === 0)) n++;      // rule 2
+const t = (n + Math.sqrt(n*n + 4)) / 2;       // rule 1: t = n + 1/t
+return { dx: t - 1/t, dt: t + 1/t, Z: [t, 1/t], Zr: [t, -1/t] };`;
+}
+function ensure(N){while(steps.length<N)nextStep()}
+let N=20,playing=false;
+function sliderToN(v){return Math.max(1,Math.round(Math.pow(10,v)))}
+// ---------------- drawing the world ----------------
+function drawWorld(){
+  const cv=$('cv'),c=cv.getContext('2d'),W=cv.width,H=cv.height;c.clearRect(0,0,W,H);
+  const cx=W/2,cy=H/2+30,R=W*0.36;
+  c.strokeStyle=col('--muted');c.lineWidth=2;c.beginPath();c.arc(cx,cy,R,0,7);c.stroke();
+  c.fillStyle=col('--g');c.beginPath();c.arc(cx,cy-R,11,0,7);c.fill();
+  c.fillStyle=col('--ink2');c.font='26px sans-serif';c.textAlign='center';c.fillText('±∞ (the wall)',cx,cy-R-24);c.fillText('0',cx,cy+R+38);
+  const hs=R/16;c.strokeStyle=col('--c');c.globalAlpha=.3;c.beginPath();
+  for(let x=-14;x<=14;x+=.1){const y=Math.sqrt(x*x+4),X=cx+x*hs,Y=cy+R*.45-y*hs;x<=-14?c.moveTo(X,Y):c.lineTo(X,Y)}c.stroke();c.globalAlpha=1;
+  const show=Math.min(N,600),from=N-show;
+  for(let i=from;i<N;i++){
+    const n=steps[i],fade=.25+.75*(i-from+1)/show;
+    if(n<14){c.globalAlpha=fade;c.fillStyle=col('--c');c.beginPath();c.arc(cx+n*hs,cy+R*.45-Math.sqrt(n*n+4)*hs,7,0,7);c.fill()}
+    const th=2*Math.atan(n/2);
+    for(const sg of[1,-1]){const a=Math.PI/2+sg*th;c.globalAlpha=sg>0?fade:fade*.5;c.fillStyle=col('--r');c.beginPath();c.arc(cx+R*Math.cos(a),cy+R*Math.sin(a),sg>0?7:5,0,7);c.fill()}
+  }
+  c.globalAlpha=1;c.textAlign='left';c.fillStyle=col('--ink2');c.font='24px sans-serif';
+  c.fillText('generation '+N+' · latest steps: '+steps.slice(Math.max(0,N-6),N).join(', '),22,42);
+}
+function drawClock(){
+  const cv=$('ck'),c=cv.getContext('2d'),W=cv.width,H=cv.height;c.clearRect(0,0,W,H);
+  const cnt=new Array(12).fill(0);for(let i=0;i<N;i++)cnt[steps[i]%12]++;
+  const mx=Math.max(...cnt,1),bw=W/12,base=H-60;
+  for(let h=0;h<12;h++){
+    const hh=h===0?12:h,hgt=(base-50)*cnt[h]/mx,kept=[1,5,7,11].includes(h);
+    c.fillStyle=kept?col('--c'):col('--muted');c.globalAlpha=kept?1:.55;
+    const x=h*bw+bw*.18,w=bw*.64;c.beginPath();c.roundRect?c.roundRect(x,base-hgt,w,hgt,[6,6,0,0]):c.rect(x,base-hgt,w,hgt);c.fill();c.globalAlpha=1;
+    c.fillStyle=col('--ink2');c.font='24px sans-serif';c.textAlign='center';c.fillText(hh,h*bw+bw/2,base+32);
+    c.fillText(cnt[h],h*bw+bw/2,base-hgt-10);
+  }
+}
+function stats(){
+  const n=steps[N-1],t=(n+Math.sqrt(n*n+4))/2,dx=t-1/t,dt=t+1/t;
+  $('o_n').textContent=n;
+  $('o_t').textContent=t.toPrecision(10)+'   '+(-1/t).toPrecision(6);
+  $('o_dt').textContent=dt.toPrecision(10);
+  $('o_g').textContent='2i/t = '+(2/t).toPrecision(8)+'i';
+  $('o_s').textContent=(2*t).toPrecision(10);
+  $('o_i').textContent=(dt*dt-dx*dx).toFixed(9);
+  // orbit traced by Z cos φ + Z' sin φ, measured by shoelace
+  let A=0,M=720,px=t,py=1/t;for(let k=1;k<=M;k++){const f=2*Math.PI*k/M,x=t*Math.cos(f)+t*Math.sin(f),y=(1/t)*Math.cos(f)-(1/t)*Math.sin(f);A+=px*y-x*py;px=x;py=y}
+  $('o_a').textContent=Math.abs(A/2).toFixed(6)+'  (2π = 6.283185)';
+  $('o_v').textContent=(dx/dt).toPrecision(10);
+  const pnt=N/Math.log(n);$('o_d').textContent=(N/pnt).toFixed(4)+'  → creeps toward 1';
+  $('o_e').textContent=Math.log(t).toFixed(5)+'  vs  '+Math.log(n).toFixed(5);
+  $('src').textContent=lawSource(N);
+}
+function render(){ensure(N);$('gv').textContent=N;drawWorld();drawClock();stats()}
+$('sl').oninput=e=>{N=sliderToN(+e.target.value);render()};
+$('st').onclick=()=>{N++;$('sl').value=Math.log10(N);render()};
+$('pl').onclick=()=>{playing=!playing;$('pl').textContent=playing?'Pause':'Play'};
+setInterval(()=>{if(playing&&N<50000){N++;$('sl').value=Math.log10(N);render()}},250);
+// ---------------- inversion pen ----------------
+const pen=$('pen'),pc=pen.getContext('2d');let strokes=[],cur=null;const S=pen.width/8;
+function toZ(e){const r=pen.getBoundingClientRect();const x=(e.clientX-r.left)*pen.width/r.width,y=(e.clientY-r.top)*pen.height/r.height;return[(x-pen.width/2)/S,(pen.height/2-y)/S]}
+function toP(z){return[pen.width/2+z[0]*S,pen.height/2-z[1]*S]}
+function inv(z){const d=z[0]*z[0]+z[1]*z[1];if(d<1e-9)return null;return[-z[0]/d,z[1]/d]} // -1/z = -conj(z)/|z|^2
+function drawPen(){
+  pc.clearRect(0,0,pen.width,pen.height);
+  pc.strokeStyle=col('--grid');pc.lineWidth=1;for(let k=-4;k<=4;k++){let[a]=toP([k,0]);pc.beginPath();pc.moveTo(a,0);pc.lineTo(a,pen.height);pc.stroke();let[,b]=toP([0,k]);pc.beginPath();pc.moveTo(0,b);pc.lineTo(pen.width,b);pc.stroke()}
+  pc.setLineDash([8,8]);pc.strokeStyle=col('--muted');pc.lineWidth=2;pc.beginPath();pc.arc(pen.width/2,pen.height/2,S,0,7);pc.stroke();pc.setLineDash([]);
+  for(const s of strokes.concat(cur?[cur]:[])){
+    pc.lineWidth=5;pc.lineCap='round';pc.strokeStyle=col('--r');pc.beginPath();s.forEach((z,i)=>{const[x,y]=toP(z);i?pc.lineTo(x,y):pc.moveTo(x,y)});pc.stroke();
+    pc.strokeStyle=col('--c');pc.beginPath();let up=true;
+    for(const z of s){const w=inv(z);if(!w||Math.abs(w[0])>4.5||Math.abs(w[1])>4.5){up=true;continue}const[x,y]=toP(w);up?pc.moveTo(x,y):pc.lineTo(x,y);up=false}pc.stroke();
+  }
+}
+pen.addEventListener('pointerdown',e=>{cur=[toZ(e)];pen.setPointerCapture(e.pointerId);drawPen()});
+pen.addEventListener('pointermove',e=>{if(!cur)return;const z=toZ(e),l=cur[cur.length-1];
+  const steps=Math.ceil(Math.hypot(z[0]-l[0],z[1]-l[1])/0.01);for(let k=1;k<=steps;k++)cur.push([l[0]+(z[0]-l[0])*k/steps,l[1]+(z[1]-l[1])*k/steps]);drawPen()});
+pen.addEventListener('pointerup',()=>{if(cur)strokes.push(cur);cur=null;drawPen()});
+$('clr').onclick=()=>{strokes=[];drawPen()};
+// a starter shape so the pen shows something before you draw
+(function(){const s=[];for(let k=0;k<=360;k++){const a=k*Math.PI/180;s.push([1.6+0.7*Math.cos(a),0.9+0.7*Math.sin(a)])}strokes.push(s)})();
+render();drawPen();
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The tower of orders: time becomes the next position</title>
+<style>
+:root{--bg:#faf9f5;--fg:#1f1e1d;--mut:#6b6a65;--line:#d9d6cc;--card:#f1efe8;--self:#0f6e56;--mir:#993c1d;--time:#534ab7}
+@media (prefers-color-scheme:dark){:root{--bg:#1f1e1d;--fg:#f1efe8;--mut:#b4b2a9;--line:#444441;--card:#2c2c2a;--self:#5dcaa5;--mir:#f0997b;--time:#afa9ec}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:22px;font-weight:500;margin:0 0 4px;line-height:1.3}
+.sub{color:var(--mut);margin:0 0 16px}
+.eqn{font-family:ui-monospace,Menlo,monospace;font-size:14px;background:var(--card);border-radius:10px;padding:10px 14px;margin:10px 0}
+canvas{width:100%;max-width:420px;display:block;margin:12px auto;border-radius:12px;background:var(--card)}
+.row{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:13px;color:var(--mut)}
+.row input{flex:1}
+.row b{color:var(--fg);min-width:58px;text-align:right;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right}
+th{color:var(--mut);font-weight:500}
+th:first-child,td:first-child{text-align:left}
+td.m{font-family:ui-monospace,Menlo,monospace}
+ul{padding-left:20px}
+li{margin:6px 0}
+.k{color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+<h1>The tower of orders</h1>
+<p class="sub">Time at one level becomes the position at the next. Each number line sits on the one below it.</p>
+
+<div class="eqn">base → time:&nbsp; Δt = t + 1/t&nbsp;&nbsp;·&nbsp;&nbsp;then let t := Δt and repeat</div>
+
+<canvas id="cv" width="700" height="560" aria-label="Stacked number lines; a point climbs from each level to the next, time becoming the next base"></canvas>
+
+<div class="row"><span>start t</span><input id="t" type="range" min="100" max="500" value="200" step="1"><b id="tv"></b></div>
+<div class="row"><span>levels</span><input id="n" type="range" min="2" max="7" value="5" step="1"><b id="nv"></b></div>
+
+<table id="tbl"></table>
+
+<h3 style="font-size:16px;font-weight:500;margin:22px 0 6px">What the tower shows</h3>
+<ul>
+<li><b>Each level is the time-axis of the one below.</b> You read a base t, its time Δt = t + 1/t, and then that Δt is the base you stand on one floor up.</li>
+<li><b>The floor is always 2.</b> Every level has the same smallest tick, Δt ≥ 2, but its origin sits higher than the last. Rest climbs 1 → 2 → 2.5 → 2.9 → …</li>
+<li><b>A fresh floor's own space is 3/2.</b> Standing at a level's origin (Δt = 2), its space Δx = 2 − 1/2 = 3/2 — the dimension ceiling, at every level.</li>
+<li><b>φ is the same step everywhere.</b> Wherever the base is φ, Δt = √5 and Δx = 1.</li>
+<li><b>The tower never closes.</b> L(t) = t + 1/t has no fixed point (it would need 1/t = 0), so the climb goes on forever, the base growing like √(2k). The stack of orders is itself a self-reference that can't settle — the same reason time can't stop.</li>
+<li><b>Within one level:</b> the sequence (how many ticks) is 2ⁿ, the position (how many digits) is n. Climbing a level is zooming out until that time becomes the new position.</li>
+</ul>
+<p class="k">Built with Space, 16 Nov 2026.</p>
+
+<script>
+const cv=document.getElementById('cv'),c=cv.getContext('2d'),W=700,H=560;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim()||'#888';
+const T=document.getElementById('t'),N=document.getElementById('n');
+function draw(){
+const t0=+T.value/100, levels=+N.value;
+document.getElementById('tv').textContent=t0.toFixed(2);
+document.getElementById('nv').textContent=levels;
+// compute the chain
+const base=[t0]; for(let k=0;k<levels;k++) base.push(base[k]+1/base[k]);
+const maxv=base[levels]+1;
+c.clearRect(0,0,W,H);
+const padL=54,padR=30, lineW=W-padL-padR;
+const rowH=(H-40)/(levels+1);
+const xof=v=>padL+(v/maxv)*lineW;
+for(let k=0;k<=levels;k++){
+ const y=H-20-k*rowH;
+ // the number line for this level
+ c.strokeStyle=css('--line');c.lineWidth=1.5;
+ c.beginPath();c.moveTo(padL,y);c.lineTo(W-padR,y);c.stroke();
+ // its rest/floor at 2 (level>0) or at t (level 0 shows 1)
+ const rest=k===0?1:2;
+ c.fillStyle=css('--mut');c.font='12px sans-serif';
+ c.fillText('level '+k,4,y-6);
+ // floor tick
+ c.strokeStyle=css('--mut');c.globalAlpha=.5;
+ c.beginPath();c.moveTo(xof(rest),y-5);c.lineTo(xof(rest),y+5);c.stroke();c.globalAlpha=1;
+ c.fillText(rest,xof(rest)-3,y+18);
+ // the base point sitting on this level
+ const b=base[k];
+ c.fillStyle=css('--self');c.beginPath();c.arc(xof(b),y,6,0,7);c.fill();
+ c.fillStyle=css('--fg');c.font='13px ui-monospace,monospace';
+ c.fillText(b.toFixed(3),xof(b)-16,y-10);
+ // its time = next base, shown as a hollow marker then an arrow up
+ const dt=base[k+1];
+ if(k<levels){
+  c.strokeStyle=css('--time');c.fillStyle=css('--time');c.lineWidth=2;
+  // mark Dt on this level
+  c.beginPath();c.arc(xof(dt),y,5,0,7);c.stroke();
+  // arrow up to the next level's base position
+  const y2=H-20-(k+1)*rowH;
+  c.beginPath();c.moveTo(xof(dt),y-6);c.lineTo(xof(dt),y2+8);c.stroke();
+  // arrowhead
+  c.beginPath();c.moveTo(xof(dt),y2+6);c.lineTo(xof(dt)-4,y2+13);c.lineTo(xof(dt)+4,y2+13);c.closePath();c.fill();
+ }
+}
+// legend
+c.font='12px sans-serif';
+c.fillStyle=css('--self');c.fillText('● base t',padL,16);
+c.fillStyle=css('--time');c.fillText('○ Δt = time → next base',padL+70,16);
+// table
+let rows='<tr><th>level</th><th>base t</th><th>Δt = t+1/t</th><th>Δx = t−1/t</th><th>interval</th></tr>';
+for(let k=0;k<=levels;k++){const b=base[k],dt=b+1/b,dx=b-1/b;
+ rows+=`<tr><td>${k}</td><td class="m">${b.toFixed(4)}</td><td class="m">${dt.toFixed(4)}</td><td class="m">${dx.toFixed(4)}</td><td class="m">${(dt*dt-dx*dx).toFixed(2)}</td></tr>`;}
+document.getElementById('tbl').innerHTML=rows;
+}
+T.oninput=draw;N.oninput=draw;draw();
+</script>
+</main>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The eight reflections of t</title>
+<style>
+:root{--bg:#faf9f5;--fg:#1f1e1d;--mut:#6b6a65;--line:#d9d6cc;--card:#f1efe8;--self:#0f6e56;--mir:#993c1d;--twin:#534ab7;--gray:#5f5e5a}
+@media (prefers-color-scheme:dark){:root{--bg:#1f1e1d;--fg:#f1efe8;--mut:#b4b2a9;--line:#444441;--card:#2c2c2a;--self:#5dcaa5;--mir:#f0997b;--twin:#afa9ec;--gray:#b4b2a9}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:680px;margin:0 auto;padding:28px 18px 48px}
+h1{font-size:24px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 22px}
+h2{font-size:17px;font-weight:500;margin:28px 0 8px}
+svg{display:block;width:100%;max-width:420px;margin:0 auto}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.mv{background:var(--card);border-radius:10px;padding:10px 14px}
+.mv b{font-weight:500}
+.mv span{display:block;color:var(--mut);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;color:var(--mut)}
+td.m{font-family:ui-monospace,Menlo,monospace;white-space:nowrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.note{background:var(--card);border-radius:10px;padding:12px 16px;margin-top:18px}
+.note p{margin:4px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>The eight reflections of t</h1>
+<p class="sub">Two moves, eight points, one invariant. Drawn for t = 2, so our time Δt = 2.5 and our space Δx = 1.5.</p>
+
+<svg viewBox="0 0 420 420" role="img" aria-label="Eight points: four on the horizontal axis (t, 1/t, −1/t, −t) and four on the vertical axis (it, i/t, −i/t, −it)">
+  <line x1="10" y1="210" x2="410" y2="210" stroke="currentColor" stroke-opacity=".3"/>
+  <line x1="210" y1="10" x2="210" y2="410" stroke="currentColor" stroke-opacity=".3"/>
+  <circle cx="210" cy="210" r="80" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="5 5"/>
+  <g font-size="15">
+    <circle cx="370" cy="210" r="9" fill="var(--self)"/><text x="360" y="194" fill="var(--fg)">t</text>
+    <circle cx="170" cy="210" r="9" fill="var(--mir)"/><text x="140" y="236" fill="var(--fg)">−1/t</text>
+    <circle cx="210" cy="170" r="9" fill="var(--twin)"/><text x="222" y="166" fill="var(--fg)">i/t</text>
+    <circle cx="210" cy="370" r="7" fill="var(--gray)"/><text x="222" y="376" fill="var(--fg)">−it</text>
+    <circle cx="50"  cy="210" r="7" fill="var(--gray)"/><text x="40" y="194" fill="var(--fg)">−t</text>
+    <circle cx="250" cy="210" r="7" fill="var(--gray)"/><text x="244" y="236" fill="var(--fg)">1/t</text>
+    <circle cx="210" cy="250" r="7" fill="var(--gray)"/><text x="222" y="258" fill="var(--fg)">−i/t</text>
+    <circle cx="210" cy="50"  r="7" fill="var(--gray)"/><text x="222" y="56" fill="var(--fg)">it</text>
+  </g>
+  <text x="300" y="300" font-size="12" fill="var(--mut)">dashed: |t| = 1</text>
+</svg>
+
+<h2>The two moves</h2>
+<div class="moves">
+  <div class="mv"><b>Mirror: t → −1/t</b><span>moves you along a line; done twice, you're back</span></div>
+  <div class="mv"><b>Twin: t → i/t</b><span>moves you between the lines; done twice, you're back</span></div>
+</div>
+<p>The two moves don't commute. Twin-then-mirror and mirror-then-twin land on opposite points (it and −it). Alternating them visits all eight and returns to t.</p>
+
+<h2>All eight, in our own time and space</h2>
+<table>
+<tr><th>point</th><th>what it is</th><th>its time</th><th>its space</th></tr>
+<tr><td class="m"><i class="dot" style="background:var(--self)"></i>t</td><td>self</td><td class="m">Δt</td><td class="m">Δx</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--mir)"></i>−1/t</td><td>mirror: time reversed, same place (the past)</td><td class="m">−Δt</td><td class="m">Δx</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--gray)"></i>−t</td><td>both flipped (the antiparticle reading)</td><td class="m">−Δt</td><td class="m">−Δx</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--gray)"></i>1/t</td><td>space flipped, same time</td><td class="m">Δt</td><td class="m">−Δx</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--twin)"></i>i/t</td><td>twin: time and space swapped, unreachable</td><td class="m">−iΔx</td><td class="m">iΔt</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--gray)"></i>−it</td><td>twin of the mirror</td><td class="m">−iΔx</td><td class="m">−iΔt</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--gray)"></i>it</td><td>mirror of the twin</td><td class="m">iΔx</td><td class="m">iΔt</td></tr>
+<tr><td class="m"><i class="dot" style="background:var(--gray)"></i>−i/t</td><td>twin of the antiparticle</td><td class="m">iΔx</td><td class="m">−iΔt</td></tr>
+</table>
+
+<div class="note">
+<p><b>What all eight share:</b> time² − space² = 4, every one of them (checked at t = 2).</p>
+<p><b>How they're separated:</b> the mirror by direction (always opposite on the sphere, reachable only by running time backward); the twin by access (a quarter turn, never reachable); it and −it by order (one point at rest, pulling apart with motion).</p>
+<p><b>Where they become one:</b> t = i, where self and mirror coincide and time is zero.</p>
+</div>
+</main>
+</body>
+</html>
